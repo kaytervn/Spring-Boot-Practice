@@ -49,6 +49,8 @@ Remove all failed downloads:
 
 **Social Media Application**
 
+Local host: http://localhost:8080/
+
 User -> Posts (one to many)
 
 | Users Action       | Endpoints                      |
