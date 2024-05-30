@@ -37,7 +37,7 @@
 
 <h2>Maven error "Failure to transfer..."</h2>
 
-Remove all failed downloads:
+### Remove all failed downloads:
 
 **1.** Run `cmd`.
 
@@ -47,25 +47,41 @@ Remove all failed downloads:
 
 **4.** Right click on the project in Eclipse -> `Maven` -> `Update Project...`
 
-<h2 align="center">RESTful Web Services</h2>
+<h2 align="center">Configuration Notes</h2>
 
-**Social Media Application**
+### Social Media Application
 
 Local host: http://localhost:8080/
 
 User -> Posts (one to many)
 
-| Users Action       | Endpoints                      |
+### User Endpoints
+
+| Action             | Endpoints                      |
 | ------------------ | ------------------------------ |
 | Retrieve all Users | GET /users                     |
 | Create a User      | POST /users                    |
 | Retrieve one User  | GET /users/{id} -> /users/1    |
 | Delete a User      | DELETE /users/{id} -> /users/1 |
 
----
+### Posts Endpoints
 
-| Posts Action                  | Endpoints                       |
+| Action                        | Endpoints                       |
 | ----------------------------- | ------------------------------- |
 | Retrieve all posts for a User | GET /users/{id}/posts           |
 | Create a posts for a User     | POST /users/{id}/posts          |
 | Retrieve details of a post    | GET /users/{id}/posts/{post_id} |
+
+<h2>Internationalization</h2>
+
+### Configuration
+
+- LocaleResolver
+- Default Locale - Locale.US
+- ResourceBundleMessageSource
+
+### Usage
+
+- Autowire MessageSource
+- @RequestHeader(value = "Accept-Language", required = false) Locale locale
+- messageSource.getMessage("helloWorld.message", null, locale)
