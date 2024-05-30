@@ -21,7 +21,9 @@
 | Dependency           | Tag               |
 | -------------------- | ----------------- |
 | Spring Web           | `WEB`             |
+| Spring HATEOAS       | `WEB`             |
 | Spring Boot DevTools | `DEVELOPER TOOLS` |
+| Validation           | `I/O`             |
 | Spring Data JPA      | `SQL`             |
 | H2 Database          | `SQL`             |
 
