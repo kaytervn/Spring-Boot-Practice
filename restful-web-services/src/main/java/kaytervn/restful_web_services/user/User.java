@@ -2,9 +2,16 @@ package kaytervn.restful_web_services.user;
 
 import java.util.Date;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 public class User {
 	private Integer id;
+
+	@Size(min = 2, message = "Name should has at least 2 characters")
 	private String name;
+
+	@Past
 	private Date birthDate;
 
 	public Integer getId() {
