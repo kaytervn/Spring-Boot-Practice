@@ -15,11 +15,6 @@ public class SomeBeans {
 		this.field3 = field3;
 	}
 
-	@Override
-	public String toString() {
-		return "SomeBeans [field1=" + field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
-	}
-
 	public String getField1() {
 		return field1;
 	}
