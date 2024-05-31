@@ -18,14 +18,17 @@
 
 **4.** Select dependencies.
 
-| Dependency           | Tag               |
-| -------------------- | ----------------- |
-| Spring Web           | `WEB`             |
-| Spring HATEOAS       | `WEB`             |
-| Spring Boot DevTools | `DEVELOPER TOOLS` |
-| Validation           | `I/O`             |
-| Spring Data JPA      | `SQL`             |
-| H2 Database          | `SQL`             |
+| Dependency                     | Tag               |
+| ------------------------------ | ----------------- |
+| Spring Web                     | `WEB`             |
+| Spring HATEOAS                 | `WEB`             |
+| Rest Repositories HAL Explorer | `WEB`             |
+| Spring Boot DevTools           | `DEVELOPER TOOLS` |
+| Validation                     | `I/O`             |
+| Spring Data JPA                | `SQL`             |
+| H2 Database                    | `SQL`             |
+| Spring Boot Actuator           | `OPS`             |
+| Spring Security                | `SECURITY`        |
 
 **5.** Click `Generate` (automatically download a zip file).
 
@@ -74,14 +77,50 @@ User -> Posts (one to many)
 
 <h2>Internationalization</h2>
 
-### Configuration
+| Configuration                                                                            | Usage                                                                                                                                                                 |
+| ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AcceptHeaderLocaleResolver<br>setDefaultLocale(Locale.US)<br>ResourceBundleMessageSource | @Autowired MessageSource<br>@RequestHeader(value = "Accept-Language", required = false)<br>Locale locale messageSource.getMessage("helloWorld.message", null, locale) |
 
-- LocaleResolver
-- Default Locale - Locale.US
-- ResourceBundleMessageSource
+<h2>Notes</h2>
 
-### Usage
+- **Run server:** run file `{ProjectName}Application.java` as **Java Application**.
 
-- Autowire MessageSource
-- @RequestHeader(value = "Accept-Language", required = false) Locale locale
-- messageSource.getMessage("helloWorld.message", null, locale)
+- Restart server after adding new dependencies: On **Console** bar, `Terminate -> Remove All Terminated Launches`, then Run again.
+
+---
+
+- **Add dependency:** Remove the version tag -> Maven will use the version defined of the parent POM (`Spring framework` packages only).
+
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.1-SNAPSHOT</version>
+    <relativePath /> <!-- lookup parent from repository -->
+</parent>
+```
+
+- **XML** Content Supporting (Optional):
+
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+
+**Postman:** On **Header** section:
+
+| Key    | Value           |
+| ------ | --------------- |
+| Accept | application/xml |
+
+- Auto generation of Swagger documentation:
+
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.5.0</version>
+</dependency>
+```
