@@ -81,11 +81,24 @@ User -> Posts (one to many)
 | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AcceptHeaderLocaleResolver<br>setDefaultLocale(Locale.US)<br>ResourceBundleMessageSource | @Autowired MessageSource<br>@RequestHeader(value = "Accept-Language", required = false)<br>Locale locale messageSource.getMessage("helloWorld.message", null, locale) |
 
-<h2>Notes</h2>
+<h2 align="center">Notes</h2>
 
 - **Run server:** run file `{ProjectName}Application.java` as **Java Application**.
 
 - Restart server after adding new dependencies: On **Console** bar, `Terminate -> Remove All Terminated Launches`, then Run again.
+
+---
+
+### RESPONSE STATUS
+
+| Code  | Status             |
+| :---: | ------------------ |
+| `200` | SUCCESS            |
+| `404` | RESOURCE NOT FOUND |
+| `400` | BAD REQUEST        |
+| `201` | CREATED            |
+| `401` | UNAUTHORIZED       |
+| `500` | SERVER ERROR       |
 
 ---
 
