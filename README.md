@@ -15,13 +15,13 @@
 
 **2.** Select features.
 
-| Feature     | Selection        |
-| ----------- | ---------------- |
-| Project     | `Maven`          |
-| Langguage   | `Java`           |
-| Spring Boot | `Latest Version` |
-| Packaging   | `JAR`            |
-| Java        | `17`             |
+| Feature     | Selection |
+| ----------- | --------- |
+| Project     | `Maven`   |
+| Langguage   | `Java`    |
+| Spring Boot | `3.3.0`   |
+| Packaging   | `JAR`     |
+| Java        | `17`      |
 
 **3.** Set **Group** ID, **Artifact** ID, and Project Name.
 
