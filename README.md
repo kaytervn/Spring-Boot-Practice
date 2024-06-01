@@ -20,11 +20,11 @@ sequenceDiagram
     Client->>Controller: send HTTP request
     Controller->>Service: map request<br>(call service)
     Service->Respository: CRUD Services<br>(Dependency Injection)
-    Service->Model
-    Respository->Database
-    Database-->Service
-    Service-->Controller
-    Controller-->Client
+    Service->Model: call model
+    Model->Database:
+    Database-->Service:
+    Service-->Controller:
+    Controller-->Client:
 ```
 
 <h2>Spring Initializing</h2>
