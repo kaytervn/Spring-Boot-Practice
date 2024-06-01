@@ -10,12 +10,17 @@
 | **4.** Model (`Domain`)           | Entity classes (@Entity), POJOs (Plain Old Java Objects).                            | Represents the data structures or entities.                                                                    |
 
 ```mermaid
-graph TD
-    A[Client (Browser, Mobile App)] --> B[Controller (Handles HTTP Requests)]
-    B[Controller (Handles HTTP Requests)] --> C[Service (Business Logic Layer)]
-    C[Service (Business Logic Layer)] --> D[Repository (Data Access Layer)]
-    D[Repository (Data Access Layer)] --> E[Model (Domain Entities)]
-    E[Model (Domain Entities)] --> F[Database]
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop HealthCheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
 ```
 
 <h2>Spring Initializing</h2>
