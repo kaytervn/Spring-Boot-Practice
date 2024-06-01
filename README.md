@@ -11,8 +11,8 @@
 
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
+    A[Client]-->B;
+    A[Client]-->C;
     B-->D;
     C-->D;
 ```
