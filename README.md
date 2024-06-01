@@ -1,5 +1,23 @@
 <h1 align="center">RESTful Web Services with Spring Boot</h1>
 
+<h2>Spring Boot Architecture</h2>
+
+| Layer                             | Component                                                                            | Purpose                                                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **1.** Presentation (`Web`)       | Controllers (@RestController), HTML pages (JSP), JSON or XML responses.              | Handles HTTP requests, processes input, and returns responses.                                                 |
+| **2.** Business Logic (`Service`) | Services (@Service), business logic classes.                                         | Contains business logic and rules, processes data from the persistence layer and interacts with the web layer. |
+| **3.** Persistence (`Repository`) | Repositories (@Repository), Data Access Objects (DAO), Spring Data JPA repositories. | Manages data access and persistence.                                                                           |
+| **4.** Model (`Domain`)           | Entity classes (@Entity), POJOs (Plain Old Java Objects).                            | Represents the data structures or entities.                                                                    |
+
+```mermaid
+graph TD
+    A[Client (Browser, Mobile App)] --> B[Controller (Handles HTTP Requests)]
+    B --> C[Service (Business Logic Layer)]
+    C --> D[Repository (Data Access Layer)]
+    D --> E[Model (Domain Entities)]
+    E --> F[Database]
+```
+
 <h2>Spring Initializing</h2>
 
 **1.** Go to the site: https://start.spring.io/
@@ -36,7 +54,7 @@
 
 **7.** Import that project folder from **Eclipse** (`Import` -> `Existing Maven Projects`).
 
-**8.** Wait for **dependencies** download `(it really takes time for the first time using a specific version of Spring Boot or maybe my Internet capability sucks :D)`.
+**8.** Wait for **dependencies** download (`it really takes time for the first time using a specific version of Spring Boot or maybe my Internet capability sucks :D`).
 
 <h2>Maven error "Failure to transfer..."</h2>
 
@@ -85,7 +103,7 @@ User -> Posts (one to many)
 
 - **Run server:** run file `{ProjectName}Application.java` as **Java Application**.
 
-- Restart server after adding new dependencies: On **Console** bar, `Terminate -> Remove All Terminated Launches`, then Run again.
+- Restart server after adding new dependencies: On **Console** bar, `Terminate` -> `Remove All Terminated Launches`, then `Run` again.
 
 ---
 
