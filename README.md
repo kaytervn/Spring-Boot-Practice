@@ -11,16 +11,20 @@
 
 ```mermaid
 sequenceDiagram
-    participant Alice as Client
-    participant Bob
-    Client->>John: Hello John, how are you?
-    loop HealthCheck
-        John->>John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts <br/>prevail!
-    John-->>Client: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!
+    actor Client
+    participant Controller
+    participant Service
+    participant Repository
+    participant Model
+    participant Database
+    Client->>Controller: send HTTP request
+    Controller->>Service: map request<br>(call service)
+    Service->Respository: CRUD Services<br>(Dependency Injection)
+    Service->Model
+    Respository->Database
+    Database-->Service
+    Service-->Controller
+    Controller-->Client
 ```
 
 <h2>Spring Initializing</h2>
