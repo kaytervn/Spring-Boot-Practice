@@ -47,18 +47,6 @@
 
 **8.** Wait for **dependencies** download (`it really takes time for the first time using a specific version of Spring Boot or maybe my Internet capability sucks :D`).
 
-<h2>Maven error "Failure to transfer..."</h2>
-
-### Remove all failed downloads:
-
-**1.** Run `cmd`.
-
-**2.** `cd C:\Users\kiend\.m2\repository`.
-
-**3.** `for /r %i in (*.lastUpdated) do del %i`.
-
-**4.** Right click on the project in Eclipse -> `Maven` -> `Update Project...`
-
 <h2 align="center">Configuration Notes</h2>
 
 ### Social Media Application
@@ -84,11 +72,188 @@ User -> Posts (one to many)
 | Create a posts for a User     | POST /users/{id}/posts          |
 | Retrieve details of a post    | GET /users/{id}/posts/{post_id} |
 
+<h2>Maven error "Failure to transfer..."</h2>
+
+### Remove all failed downloads:
+
+**1.** Run `cmd`.
+
+**2.** `cd C:\Users\kiend\.m2\repository`.
+
+**3.** `for /r %i in (*.lastUpdated) do del %i`.
+
+**4.** Right click on the project in Eclipse -> `Maven` -> `Update Project...`
+
 <h2>Internationalization</h2>
 
 | Configuration                                                                            | Usage                                                                                                                                                                 |
 | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AcceptHeaderLocaleResolver<br>setDefaultLocale(Locale.US)<br>ResourceBundleMessageSource | @Autowired MessageSource<br>@RequestHeader(value = "Accept-Language", required = false)<br>Locale locale messageSource.getMessage("helloWorld.message", null, locale) |
+
+<h2>Input Data Validation</h2>
+
+| Annotation  | Description                                                |
+| ----------- | ---------------------------------------------------------- |
+| `@NotNull`  | Field must not be null.                                    |
+| `@NotEmpty` | Collection must not be empty.                              |
+| `@NotBlank` | String must not be blank (**neither be null nor empty**).  |
+| `@Min`      | Value must be greater than or equal to a specified min.    |
+| `@Max`      | Value must be less than or equal to a specified max.       |
+| `@Pattern`  | String must match a regular expression (**customizable**). |
+| `@Email`    | String must be a valid email address.                      |
+
+<h3>Simple validation</h3>
+
+```java
+@Pattern(regexp = "^\\d{10}$", message = "phone is invalid")
+private String phone;
+
+@NotNull(message = "dateOfBirth must not be null")
+@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+@JsonFormat(pattern = "MM/dd/yyyy")
+@Past(message = "dateOfBirth must be a past date")
+private Date dateOfBirth;
+
+@NotEmpty(message = "permissions must not be empty")
+List<String> permissions;
+```
+
+<h3>Advanced validation</h3>
+
+**Phone number validation**
+
+**1.** Create anotation class:
+
+```java
+// Anotation Phone Number
+@Documented
+@Constraint(validatedBy = PhoneValidator.class)
+@Target({ ElementType.FIELD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PhoneNumber {
+	String message() default "Invalid phone number";
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+}
+```
+
+**2.** Create validator class (customize regexp):
+
+```java
+// Regular Expression Validator
+public class PhoneValidator implements ConstraintValidator<PhoneNumber, String> {
+
+	@Override
+	public boolean isValid(String phoneNo, ConstraintValidatorContext cxt) {
+		if (phoneNo == null) {
+			return false;
+		}
+		// validate phone numbers of format "0902345345"
+		if (phoneNo.matches("\\d{10}"))
+			return true;
+		// validating phone number with -, . or spaces: 090-234-4567
+		else if (phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
+			return true;
+		// validating phone number with extension length from 3 to 5
+		else // return false if nothing matches the input
+		if (phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
+			return true;
+		// validating phone number where area code is in braces ()
+		else
+			return phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}");
+	}
+
+}
+```
+
+**3.** Config field:
+
+```java
+@PhoneNumber // Created Anotation
+String phone;
+```
+
+<h2>Enum Validation</h2>
+
+<h3>Method 1: Regular Expression (Regexp)</h3>
+
+**1.** Create enum class:
+
+```java
+// Enum UserStatus
+public enum UserStatus {
+    @JsonProperty("active")
+    ACTIVE,
+    @JsonProperty("inactive")
+    INACTIVE,
+    @JsonProperty("none")
+    NONE
+}
+```
+
+**2.** Create anotation class:
+
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR,
+		ElementType.PARAMETER, ElementType.TYPE_USE })
+@Constraint(validatedBy = EnumPatternValidator.class)
+public @interface EnumPattern {
+	String name();
+
+	String regexp();
+
+	String message() default "{name} must match {regexp}";
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+}
+```
+
+**3.** Create validator class:
+
+```java
+public class EnumPatternValidator implements ConstraintValidator<EnumPattern, Enum<?>> {
+	private Pattern pattern;
+
+	@Override
+	public void initialize(EnumPattern enumPattern) {
+		try {
+			pattern = Pattern.compile(enumPattern.regexp());
+		} catch (PatternSyntaxException e) {
+			throw new IllegalArgumentException("Given regex is invalid", e);
+		}
+	}
+
+	@Override
+	public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
+		if (value == null) {
+			return true;
+		}
+
+		Matcher matcher = pattern.matcher(value.name());
+		return matcher.matches();
+	}
+}
+```
+
+**4.** Config field:
+
+```java
+@EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
+UserStatus status;
+```
+
+_It allows applying to other enums:_
+
+```java
+@EnumPattern(name = "gender", regexp = "MALE|FEMALE|OTHER")
+private Gender status;
+```
 
 <h2 align="center">Notes</h2>
 
@@ -98,16 +263,24 @@ User -> Posts (one to many)
 
 ---
 
-### RESPONSE STATUS
+### Response Status
 
-| Code  | Status             |
-| :---: | ------------------ |
-| `200` | SUCCESS            |
-| `404` | RESOURCE NOT FOUND |
-| `400` | BAD REQUEST        |
-| `201` | CREATED            |
-| `401` | UNAUTHORIZED       |
-| `500` | SERVER ERROR       |
+| Code  | Status                |
+| :---: | --------------------- |
+| `200` | Success               |
+| `201` | Created               |
+| `202` | Accepted              |
+| `204` | No Content            |
+| `400` | Bad Request           |
+| `401` | Unauthorized          |
+| `403` | Forbidden             |
+| `404` | Not Found             |
+| `406` | Not Acceptable        |
+| `409` | Conflict              |
+| `500` | Internal Server Error |
+| `502` | Bad Gateway           |
+| `503` | Service Unavailable   |
+| `504` | Gateway Timeout       |
 
 ---
 
