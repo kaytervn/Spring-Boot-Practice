@@ -1,4 +1,4 @@
-package vn.kayter.sample_code.utils;
+package vn.kayter.sample_code.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

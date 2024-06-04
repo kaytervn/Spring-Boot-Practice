@@ -1,4 +1,4 @@
-package vn.kayter.sample_code.utils;
+package vn.kayter.sample_code.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

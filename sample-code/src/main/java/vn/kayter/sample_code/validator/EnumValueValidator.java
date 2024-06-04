@@ -1,4 +1,4 @@
-package vn.kayter.sample_code.utils;
+package vn.kayter.sample_code.validator;
 
 import java.util.List;
 import java.util.stream.Stream;

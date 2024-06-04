@@ -386,9 +386,21 @@ private Gender gender;
 
 <h2 align="center">Notes</h2>
 
+### Eclipse IDE
+
 - **Run server:** run file `{ProjectName}Application.java` as **Java Application**.
 
 - Restart server after adding new dependencies: On **Console** bar, `Terminate` -> `Remove All Terminated Launches`, then `Run` again.
+
+---
+
+### Eclipse: Auto-complete Setting
+
+`Windows` -> `Preferences` -> `Java` -> `Editor` -> `Content Assist`.
+
+Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._`
+
+**--> Apply and Close**
 
 ---
 

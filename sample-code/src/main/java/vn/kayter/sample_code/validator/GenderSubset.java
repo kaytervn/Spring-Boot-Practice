@@ -1,4 +1,4 @@
-package vn.kayter.sample_code.utils;
+package vn.kayter.sample_code.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import vn.kayter.sample_code.model.Gender;
 
 @Documented
 @Target({ ElementType.METHOD, ElementType.FIELD })

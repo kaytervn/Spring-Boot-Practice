@@ -14,13 +14,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
-import vn.kayter.sample_code.utils.EnumPattern;
-import vn.kayter.sample_code.utils.EnumValue;
-import vn.kayter.sample_code.utils.Gender;
-import vn.kayter.sample_code.utils.GenderSubset;
-import vn.kayter.sample_code.utils.PhoneNumber;
-import vn.kayter.sample_code.utils.UserStatus;
-import vn.kayter.sample_code.utils.UserType;
+import vn.kayter.sample_code.model.Address;
+import vn.kayter.sample_code.model.Gender;
+import vn.kayter.sample_code.validator.PhoneNumber;
+import vn.kayter.sample_code.model.UserStatus;
+import vn.kayter.sample_code.model.UserType;
+import vn.kayter.sample_code.validator.EnumPattern;
+import vn.kayter.sample_code.validator.EnumValue;
+import vn.kayter.sample_code.validator.GenderSubset;
 
 public class UserRequestDTO implements Serializable {
 
@@ -42,8 +43,8 @@ public class UserRequestDTO implements Serializable {
 	@Past(message = "dateOfBirth must be a past date")
 	Date dateOfBirth;
 
-	@NotEmpty(message = "permissions must not be empty")
-	List<String> permissions;
+	@NotEmpty(message = "addresses must not be empty")
+	List<Address> addresses;
 
 	@EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
 	UserStatus status;
@@ -117,12 +118,12 @@ public class UserRequestDTO implements Serializable {
 		this.email = email;
 	}
 
-	public List<String> getPermissions() {
-		return permissions;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setPermissions(List<String> permissions) {
-		this.permissions = permissions;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 	public Gender getGender() {

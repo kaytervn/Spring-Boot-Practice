@@ -1,9 +1,10 @@
-package vn.kayter.sample_code.utils;
+package vn.kayter.sample_code.validator;
 
 import java.util.Arrays;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import vn.kayter.sample_code.model.Gender;
 
 public class GenderSubSetValidator implements ConstraintValidator<GenderSubset, Gender> {
 	private Gender[] genders;
