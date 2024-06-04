@@ -406,6 +406,11 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 
 ### Response Status
 
+- **GET**: `200 OK`
+- **POST**: `201 CREATED`
+- **DELETE**: `204 NO_CONTENT`
+- **PUT**, **PATCH**: `202 ACCEPTED`
+
 | Code  | Status                |
 | :---: | --------------------- |
 | `200` | Success               |
