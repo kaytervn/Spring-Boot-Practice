@@ -120,8 +120,6 @@ List<String> permissions;
 
 <h3>Advanced validation</h3>
 
-**Phone number validation**
-
 **1.** Create anotation class:
 
 ```java
