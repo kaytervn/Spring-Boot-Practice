@@ -180,7 +180,6 @@ String phone;
 **1.** Create enum class:
 
 ```java
-// Enum UserStatus
 public enum UserStatus {
     @JsonProperty("active")
     ACTIVE,
@@ -251,6 +250,138 @@ _It allows applying to other enums:_
 ```java
 @EnumPattern(name = "gender", regexp = "MALE|FEMALE|OTHER")
 private Gender status;
+```
+
+---
+
+<h3>Method 2: String Value</h3>
+
+**1.** Create enum class:
+
+```java
+public enum UserType {
+	OWNER, ADMIN, USER
+}
+```
+
+**2.** Create anotation class:
+
+```java
+@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR,
+		ElementType.PARAMETER, ElementType.TYPE_USE })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Constraint(validatedBy = { EnumValueValidator.class })
+public @interface EnumValue {
+	String name();
+
+	String message() default "{name} must be any of enum {enumClass}";
+
+	Class<? extends Enum<?>> enumClass();
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+}
+```
+
+**3.** Create validator class:
+
+```java
+public class EnumValueValidator implements ConstraintValidator<EnumValue, CharSequence> {
+	private List<String> acceptedValues;
+
+	@Override
+	public void initialize(EnumValue enumValue) {
+		acceptedValues = Stream.of(enumValue.enumClass().getEnumConstants()).map(Enum::name).toList();
+	}
+
+	@Override
+	public boolean isValid(CharSequence value, ConstraintValidatorContext context) {
+		if (value == null) {
+			return true;
+		}
+
+		return acceptedValues.contains(value.toString().toUpperCase());
+	}
+}
+```
+
+**4.** Config field:
+
+```java
+@NotNull(message = "type must not be null")
+@EnumValue(name = "type", enumClass = UserType.class)
+private String type;
+```
+
+_It allows applying to other enums and handling exception_
+
+**--> Best recommended method**
+
+---
+
+<h3>Method 3: Specifying Values</h3>
+
+**1.** Create enum class:
+
+```java
+public enum Gender {
+	@JsonProperty("male")
+	MALE, @JsonProperty("female")
+	FEMALE, @JsonProperty("other")
+	OTHER;
+}
+```
+
+**2.** Create anotation class:
+
+```java
+@Documented
+@Target({ ElementType.METHOD, ElementType.FIELD })
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = GenderSubSetValidator.class)
+public @interface GenderSubset {
+	Gender[] anyOf();
+
+	String message() default "must be any of {anyOf}";
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+}
+```
+
+**3.** Create validator class:
+
+```java
+public class GenderSubSetValidator implements ConstraintValidator<GenderSubset, Gender> {
+	private Gender[] genders;
+
+	@Override
+	public void initialize(GenderSubset constraint) {
+		this.genders = constraint.anyOf();
+	}
+
+	@Override
+	public boolean isValid(Gender value, ConstraintValidatorContext context) {
+		return value == null || Arrays.asList(genders).contains(value);
+	}
+}
+```
+
+**4.** Config field:
+
+```java
+@GenderSubset(anyOf = { Gender.MALE, Gender.FEMALE, Gender.OTHER })
+private Gender gender;
+```
+
+_It allows specifying **particular values** to validate within the enum instead of all:_
+
+```java
+@GenderSubset(anyOf = {Gender.MALE, Gender.FEMALE})
+private Gender gender;
 ```
 
 <h2 align="center">Notes</h2>

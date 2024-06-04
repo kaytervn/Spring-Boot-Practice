@@ -15,8 +15,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import vn.kayter.sample_code.utils.EnumPattern;
+import vn.kayter.sample_code.utils.EnumValue;
+import vn.kayter.sample_code.utils.Gender;
+import vn.kayter.sample_code.utils.GenderSubset;
 import vn.kayter.sample_code.utils.PhoneNumber;
 import vn.kayter.sample_code.utils.UserStatus;
+import vn.kayter.sample_code.utils.UserType;
 
 public class UserRequestDTO implements Serializable {
 
@@ -43,6 +47,13 @@ public class UserRequestDTO implements Serializable {
 
 	@EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
 	UserStatus status;
+
+	@GenderSubset(anyOf = { Gender.MALE, Gender.FEMALE, Gender.OTHER })
+	private Gender gender;
+
+	@NotNull(message = "type must not be null")
+	@EnumValue(name = "type", enumClass = UserType.class)
+	private String type;
 
 	public UserRequestDTO() {
 	}
@@ -112,6 +123,22 @@ public class UserRequestDTO implements Serializable {
 
 	public void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
