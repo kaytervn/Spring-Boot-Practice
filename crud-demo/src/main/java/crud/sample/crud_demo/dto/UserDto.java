@@ -1,10 +1,12 @@
 package crud.sample.crud_demo.dto;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class UserDto {
-	
+
 	Long id;
+	@NotNull(message = "must be not null")
 	String name;
 	String email;
 	String password;

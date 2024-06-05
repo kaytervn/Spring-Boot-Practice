@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import crud.sample.crud_demo.dto.UserDto;
 import crud.sample.crud_demo.service.UserService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -25,7 +26,7 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
 		UserDto savedUser = userService.createUser(userDto);
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
