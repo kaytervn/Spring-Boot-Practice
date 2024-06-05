@@ -1,6 +1,9 @@
 package crud.sample.crud_demo.dto;
 
+import jakarta.validation.constraints.Pattern;
+
 public class UserDto {
+	
 	Long id;
 	String name;
 	String email;

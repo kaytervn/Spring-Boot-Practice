@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto getUserById(long userId) {
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User does not exist with Id + " + userId));
+				.orElseThrow(() -> new ResourceNotFoundException("User does not exist with Id = " + userId));
 		return UserMapper.mapToUserDto(user);
 	}
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto updateUser(long userId, UserDto updatedUser) {
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User does not exist with Id + " + userId));
+				.orElseThrow(() -> new ResourceNotFoundException("User does not exist with Id = " + userId));
 		user.setName(updatedUser.getName());
 		user.setEmail(updatedUser.getEmail());
 		user.setPassword(updatedUser.getPassword());
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(long userId) {
 		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("User does not exist with Id + " + userId));
+				.orElseThrow(() -> new ResourceNotFoundException("User does not exist with Id = " + userId));
 		userRepository.deleteById(user.getId());
 	}
 

@@ -49,7 +49,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{userId}")
-	public ResponseData<?> getUser(@PathVariable int userId) {
+	public ResponseData<?> getUser(@Min(1) @PathVariable("userId") int userId) {
 		System.out.println("Request get userId = " + userId);
 		return new ResponseData<>(HttpStatus.OK.value(), "user",
 				new UserRequestDTO("Trong", "Kien", "0123", "trong@123"));
