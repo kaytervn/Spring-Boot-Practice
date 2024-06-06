@@ -36,6 +36,11 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
+    public UserResponse getUserWithoutPassword(String id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorMessage.USER_NOT_FOUND));
+        return userMapper.toUserResponseWithoutPassword(user);
+    }
+
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorMessage.USER_NOT_FOUND));
         userMapper.updateUser(user, request);

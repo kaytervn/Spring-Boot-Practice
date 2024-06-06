@@ -1,8 +1,10 @@
 package com.user_spring.dto.request;
 
 import com.user_spring.entity.Gender;
+import com.user_spring.entity.User;
 import com.user_spring.validator.DobConstraint;
 import com.user_spring.validator.EnumConstraint;
+import com.user_spring.validator.UniqueValueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -30,6 +32,7 @@ public class UserUpdateRequest {
     @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dateOfBirth;
 
+    @UniqueValueConstraint(entity = User.class, fieldName = "phone")
     @Pattern(regexp = "^\\d{10}$", message = "INVALID_PHONE")
     String phone;
 

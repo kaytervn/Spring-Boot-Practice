@@ -47,6 +47,14 @@ public class UserController {
                 .build();
     }
 
+    @GetMapping("/ignore/{userId}")
+    public ApiResponse<?> getUserWithoutPassword(@PathVariable("userId") String id) {
+        return ApiResponse.<UserResponse>builder()
+                .status(HttpStatus.OK.value())
+                .data(userService.getUserWithoutPassword(id))
+                .build();
+    }
+
     @PutMapping("/{userId}")
     public ApiResponse<?> updateUser(@PathVariable("userId") String id,
                                      @Valid @RequestBody UserUpdateRequest request) {

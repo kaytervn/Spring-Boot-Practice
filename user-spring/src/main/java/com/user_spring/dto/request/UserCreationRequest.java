@@ -36,6 +36,7 @@ public class UserCreationRequest {
     @DobConstraint(message = "INVALID_DOB", min = 18)
     LocalDate dateOfBirth;
 
+    @UniqueValueConstraint(entity = User.class, fieldName = "phone")
     @Pattern(regexp = "^\\d{10}$", message = "INVALID_PHONE")
     String phone;
 

@@ -17,6 +17,10 @@ public interface UserMapper {
 
     UserResponse toUserResponse(User user);
 
+    @Mapping(target = "password", ignore = true)
+    UserResponse toUserResponseWithoutPassword(User user);
+
+    @Mapping(target = "gender", qualifiedByName = "stringToGender")
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
 
     @Named("stringToGender")
