@@ -3,7 +3,6 @@ package com.user_spring.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.mapstruct.Mapping;
 
 import java.time.LocalDate;
 

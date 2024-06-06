@@ -2,10 +2,8 @@ package com.user_spring.service;
 
 import com.user_spring.dto.request.PostCreationRequest;
 import com.user_spring.dto.request.PostUpdateRequest;
-import com.user_spring.dto.request.UserCreationRequest;
-import com.user_spring.dto.request.UserUpdateRequest;
 import com.user_spring.dto.response.PostResponse;
-import com.user_spring.dto.response.UserResponse;
+import com.user_spring.dto.response.UserPostsResponse;
 import com.user_spring.entity.Post;
 import com.user_spring.entity.User;
 import com.user_spring.exception.AppException;
@@ -28,6 +26,7 @@ public class PostService {
     PostRepository postRepository;
     UserRepository userRepository;
     PostMapper postMapper;
+    UserMapper userMapper;
 
     public PostResponse createPost(PostCreationRequest request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
@@ -38,6 +37,16 @@ public class PostService {
 
     public List<PostResponse> getPosts() {
         return postRepository.findAll().stream().map(postMapper::toPostResponse).toList();
+    }
+
+    public UserPostsResponse getPostsByUserId(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
+        List<Post> posts = postRepository.findByUserId(userId);
+        return UserPostsResponse
+                .<UserPostsResponse>builder()
+                .user(userMapper.toUserResponseWithoutPassword(user))
+                .posts(posts.stream().map(postMapper::toPostResponseWithoutUser).toList())
+                .build();
     }
 
     public PostResponse getPost(String id) {
