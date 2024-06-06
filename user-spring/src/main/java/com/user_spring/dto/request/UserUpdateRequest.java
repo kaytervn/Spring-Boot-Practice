@@ -1,6 +1,6 @@
 package com.user_spring.dto.request;
 
-import com.user_spring.entity.Gender;
+import com.user_spring.validator.enums.Gender;
 import com.user_spring.entity.User;
 import com.user_spring.validator.DobConstraint;
 import com.user_spring.validator.EnumConstraint;

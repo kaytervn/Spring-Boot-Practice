@@ -1,5 +1,6 @@
-package com.user_spring.validator;
+package com.user_spring.validator.impl;
 
+import com.user_spring.validator.DobConstraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.AccessLevel;

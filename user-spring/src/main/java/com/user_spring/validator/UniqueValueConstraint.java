@@ -1,5 +1,6 @@
 package com.user_spring.validator;
 
+import com.user_spring.validator.impl.UniqueValueValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

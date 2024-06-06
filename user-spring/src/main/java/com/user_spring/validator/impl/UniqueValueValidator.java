@@ -1,5 +1,6 @@
-package com.user_spring.validator;
+package com.user_spring.validator.impl;
 
+import com.user_spring.validator.UniqueValueConstraint;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;

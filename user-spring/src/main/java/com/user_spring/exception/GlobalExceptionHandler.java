@@ -2,9 +2,8 @@ package com.user_spring.exception;
 
 import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.ValidResponse;
-import com.user_spring.entity.Gender;
+import com.user_spring.validator.enums.Gender;
 import jakarta.validation.ConstraintViolation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,6 +19,7 @@ public class GlobalExceptionHandler {
     private static final String MIN_ATTRIBUTE = "min";
     private static final String FIELD_NAME = "field";
     private static final String ENUM_CLASS_ATTRIBUTE = "enumClass";
+    private static final String ENTITY_CLASS = "entity";
 
     @ExceptionHandler(value = RuntimeException.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
@@ -36,8 +36,11 @@ public class GlobalExceptionHandler {
         ErrorMessage errorMessage = exception.getErrorMessage();
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(errorMessage.getStatus().value());
-        apiResponse.setMessage(errorMessage.getMessage());
-        System.out.println(exception);
+        String message = errorMessage.getMessage();
+        if (Objects.nonNull(exception.getEntity())) {
+            message = message.replace("{" + ENTITY_CLASS + "}", exception.getEntity().getSimpleName());
+        }
+        apiResponse.setMessage(message);
         return ResponseEntity.status(errorMessage.getStatus()).body(apiResponse);
     }
 

@@ -32,23 +32,23 @@ public class UserService {
     }
 
     public UserResponse getUser(String id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorMessage.USER_NOT_FOUND));
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         return userMapper.toUserResponse(user);
     }
 
     public UserResponse getUserWithoutPassword(String id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorMessage.USER_NOT_FOUND));
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         return userMapper.toUserResponseWithoutPassword(user);
     }
 
     public UserResponse updateUser(String id, UserUpdateRequest request) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorMessage.USER_NOT_FOUND));
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         userMapper.updateUser(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
     public void deleteUser(String userId) {
-        userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorMessage.USER_NOT_FOUND));
+        userRepository.findById(userId).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         userRepository.deleteById(userId);
     }
 }

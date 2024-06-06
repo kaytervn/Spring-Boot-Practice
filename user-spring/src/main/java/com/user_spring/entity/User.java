@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -31,4 +32,7 @@ public class User {
     String phone;
 
     String gender;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts;
 }

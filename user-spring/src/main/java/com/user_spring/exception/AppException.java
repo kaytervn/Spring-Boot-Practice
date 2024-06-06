@@ -11,5 +11,6 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AppException extends RuntimeException {
+    Class<?> entity;
     ErrorMessage errorMessage;
 }
