@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,31 +22,38 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+    public ApiResponse<?> createUser(@RequestBody @Valid UserCreationRequest request) {
         UserResponse userResponse = userService.createUser(request);
         return ApiResponse.<UserResponse>builder()
-                .result(userResponse)
+                .status(HttpStatus.CREATED.value())
+                .message("User created successfully")
+                .data(userResponse)
                 .build();
     }
 
     @GetMapping
     public ApiResponse<?> getUsers() {
         return ApiResponse.<List<UserResponse>>builder()
-                .result(userService.getUsers())
+                .status(HttpStatus.OK.value())
+                .data(userService.getUsers())
                 .build();
     }
 
     @GetMapping("/{userId}")
     public ApiResponse<?> getUser(@PathVariable("userId") String id) {
         return ApiResponse.<UserResponse>builder()
-                .result(userService.getUser(id)).build();
+                .status(HttpStatus.OK.value())
+                .data(userService.getUser(id))
+                .build();
     }
 
     @PutMapping("/{userId}")
     public ApiResponse<?> updateUser(@PathVariable("userId") String id,
                                      @Valid @RequestBody UserUpdateRequest request) {
         return ApiResponse.<UserResponse>builder()
-                .result(userService.updateUser(id, request))
+                .data(userService.updateUser(id, request))
+                .message("User updated successfully")
+                .status(HttpStatus.ACCEPTED.value())
                 .build();
     }
 
@@ -53,7 +61,8 @@ public class UserController {
     public ApiResponse<?> deleteUser(@PathVariable("userId") String id) {
         userService.deleteUser(id);
         return ApiResponse.<String>builder()
-                .result("User has been deleted")
+                .message("User deleted successfully")
+                .status(HttpStatus.NO_CONTENT.value())
                 .build();
     }
 
