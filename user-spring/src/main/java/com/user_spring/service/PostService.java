@@ -30,7 +30,6 @@ public class PostService {
     public PostResponse createPost(PostCreationRequest request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         Post post = postMapper.toPost(request);
-        post.setUser(user);
         return postMapper.toPostResponse(postRepository.save(post));
     }
 

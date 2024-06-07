@@ -4,6 +4,8 @@ import com.user_spring.dto.request.PostCreationRequest;
 import com.user_spring.dto.request.PostUpdateRequest;
 import com.user_spring.dto.response.PostResponse;
 import com.user_spring.entity.Post;
+import com.user_spring.repository.UserRepository;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -11,7 +13,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = UserMapper.class)
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface PostMapper {
     @Mapping(target = "user.id", source = "userId")
     Post toPost(PostCreationRequest request);
@@ -21,9 +23,5 @@ public interface PostMapper {
     @Mapping(target = "user", qualifiedByName = "userToUserResponse")
     PostResponse toPostResponse(Post post);
 
-    default List<PostResponse> toPostResponseList(List<Post> posts) {
-        return posts.stream()
-                .map(this::toPostResponse)
-                .collect(Collectors.toList());
-    }
+    List<PostResponse> toPostResponseList(List<Post> posts);
 }
