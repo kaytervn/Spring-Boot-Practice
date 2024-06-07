@@ -5,7 +5,7 @@ import com.user_spring.dto.request.UserUpdateRequest;
 import com.user_spring.dto.response.UserResponse;
 import com.user_spring.entity.User;
 import com.user_spring.exception.AppException;
-import com.user_spring.exception.ErrorMessage;
+import com.user_spring.exception.enums.ErrorMessage;
 import com.user_spring.mapper.UserMapper;
 import com.user_spring.repository.UserRepository;
 import lombok.AccessLevel;
@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+        return userMapper.toUserResponseList(userRepository.findAll());
     }
 
     public UserResponse getUser(String id) {
@@ -36,14 +36,9 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public UserResponse getUserWithoutPassword(String id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
-        return userMapper.toUserResponseWithoutPassword(user);
-    }
-
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
-        userMapper.updateUser(user, request);
+        userMapper.updateUserFromDto(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 

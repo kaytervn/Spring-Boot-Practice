@@ -1,5 +1,6 @@
 package com.user_spring.exception;
 
+import com.user_spring.exception.enums.ErrorMessage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

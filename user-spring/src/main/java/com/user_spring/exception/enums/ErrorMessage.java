@@ -1,4 +1,4 @@
-package com.user_spring.exception;
+package com.user_spring.exception.enums;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

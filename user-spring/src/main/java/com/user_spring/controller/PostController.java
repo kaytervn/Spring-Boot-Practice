@@ -4,7 +4,7 @@ import com.user_spring.dto.request.PostCreationRequest;
 import com.user_spring.dto.request.PostUpdateRequest;
 import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.PostResponse;
-import com.user_spring.dto.response.UserPostsResponse;
+import com.user_spring.exception.AppException;
 import com.user_spring.service.PostService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -42,7 +42,7 @@ public class PostController {
 
     @GetMapping("/user/{userId}")
     public ApiResponse<?> getPostsByUserId(@PathVariable String userId) {
-        return ApiResponse.<UserPostsResponse>builder()
+        return ApiResponse.<List<PostResponse>>builder()
                 .status(HttpStatus.OK.value())
                 .data(postService.getPostsByUserId(userId))
                 .build();

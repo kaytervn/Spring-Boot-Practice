@@ -2,6 +2,8 @@ package com.user_spring.exception;
 
 import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.ValidResponse;
+import com.user_spring.exception.enums.ErrorMessage;
+import com.user_spring.exception.enums.ValidMessage;
 import com.user_spring.validator.enums.Gender;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +59,7 @@ public class GlobalExceptionHandler {
             ValidMessage validMessage = ValidMessage.INVALID_KEY;
             try {
                 validMessage = ValidMessage.valueOf(enumKey);
-                Map<String, Object> attributes = error
+                Map attributes = error
                         .unwrap(ConstraintViolation.class)
                         .getConstraintDescriptor()
                         .getAttributes();

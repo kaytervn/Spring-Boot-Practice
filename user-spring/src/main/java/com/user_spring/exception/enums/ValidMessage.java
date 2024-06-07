@@ -1,10 +1,9 @@
-package com.user_spring.exception;
+package com.user_spring.exception.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor

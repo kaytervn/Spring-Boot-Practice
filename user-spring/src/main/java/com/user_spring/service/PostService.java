@@ -3,11 +3,10 @@ package com.user_spring.service;
 import com.user_spring.dto.request.PostCreationRequest;
 import com.user_spring.dto.request.PostUpdateRequest;
 import com.user_spring.dto.response.PostResponse;
-import com.user_spring.dto.response.UserPostsResponse;
 import com.user_spring.entity.Post;
 import com.user_spring.entity.User;
 import com.user_spring.exception.AppException;
-import com.user_spring.exception.ErrorMessage;
+import com.user_spring.exception.enums.ErrorMessage;
 import com.user_spring.mapper.PostMapper;
 import com.user_spring.mapper.UserMapper;
 import com.user_spring.repository.PostRepository;
@@ -36,17 +35,13 @@ public class PostService {
     }
 
     public List<PostResponse> getPosts() {
-        return postRepository.findAll().stream().map(postMapper::toPostResponse).toList();
+        return postMapper.toPostResponseList(postRepository.findAll());
     }
 
-    public UserPostsResponse getPostsByUserId(String userId) {
+    public List<PostResponse> getPostsByUserId(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
-        List<Post> posts = postRepository.findByUserId(userId);
-        return UserPostsResponse
-                .<UserPostsResponse>builder()
-                .user(userMapper.toUserResponseWithoutPassword(user))
-                .posts(posts.stream().map(postMapper::toPostResponseWithoutUser).toList())
-                .build();
+        List<Post> posts = postRepository.findByUserId(user.getId());
+        return postMapper.toPostResponseList(posts);
     }
 
     public PostResponse getPost(String id) {
@@ -56,7 +51,7 @@ public class PostService {
 
     public PostResponse updatePost(String id, PostUpdateRequest request) {
         Post post = postRepository.findById(id).orElseThrow(() -> new AppException(Post.class, ErrorMessage.ENTITY_NOT_FOUND));
-        postMapper.updatePost(post, request);
+        postMapper.updatePostFromDto(post, request);
         return postMapper.toPostResponse(postRepository.save(post));
     }
 
