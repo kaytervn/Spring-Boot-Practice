@@ -1,5 +1,6 @@
 package com.user_spring.configuration;
 
+import com.user_spring.configuration.impl.JwtAuthenticationEntryPoint;
 import com.user_spring.enums.Role;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -44,7 +45,9 @@ public class SecurityConfig {
                 .jwt(jwtConfigurer -> jwtConfigurer
                         .decoder(jwtDecoder())
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                ));
+                )
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+        );
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
     }

@@ -13,6 +13,8 @@ public enum ErrorMessage {
     ENTITY_NOT_FOUND("{entity} not found", HttpStatus.NOT_FOUND),
     INVALID_PASSWORD("Invalid password", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN("Invalid token", HttpStatus.BAD_REQUEST),
+    UNAUTHENTICATED("Unauthenticated", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED("You do not have permission", HttpStatus.FORBIDDEN),
     ;
     String message;
     HttpStatus status;

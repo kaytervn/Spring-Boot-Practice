@@ -77,6 +77,15 @@ public class GlobalExceptionHandler {
                 .replace("{" + ENUM_CLASS_ATTRIBUTE + "}", acceptedValuesString);
     }
 
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<?> handlingAccessDeniedException(AccessDeniedException exception) {
+        ErrorMessage errorMessage = ErrorMessage.UNAUTHORIZED;
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatus(errorMessage.getStatus().value());
+        apiResponse.setMessage(errorMessage.getMessage());
+        return ResponseEntity.status(errorMessage.getStatus()).body(apiResponse);
+    }
+
     @ExceptionHandler({
             ParseException.class,
             RuntimeException.class,
