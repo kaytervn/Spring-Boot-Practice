@@ -11,6 +11,6 @@ public interface MapperUtils {
         if (value == null) {
             return null;
         }
-        return value.toUpperCase();
+        return value.toUpperCase().trim().replaceAll(" ", "_");
     }
 }

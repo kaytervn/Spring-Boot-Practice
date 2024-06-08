@@ -1,7 +1,9 @@
 package com.user_spring.configuration;
 
+import com.user_spring.constant.PredefinedRole;
 import com.user_spring.entity.User;
-import com.user_spring.enums.Role;
+import com.user_spring.entity.Role;
+import com.user_spring.repository.RoleRepository;
 import com.user_spring.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,16 +32,28 @@ public class ApplicationInitConfig {
     String ADMIN_PASSWORD;
 
     @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository) {
+    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         return args -> {
             if (userRepository.findByUsername(ADMIN_USERNAME).isEmpty()) {
-                var roles = new HashSet<String>();
-                roles.add(Role.ADMIN.name());
+                roleRepository.save(Role.builder()
+                        .name(PredefinedRole.USER_ROLE)
+                        .description("User role")
+                        .build());
+
+                Role adminRole = roleRepository.save(Role.builder()
+                        .name(PredefinedRole.ADMIN_ROLE)
+                        .description("Admin role")
+                        .build());
+
+                var roles = new HashSet<Role>();
+                roles.add(adminRole);
+
                 User user = User.builder()
                         .username(ADMIN_USERNAME)
-                        .roles(roles)
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
+                        .roles(roles)
                         .build();
+
                 userRepository.save(user);
             }
         };

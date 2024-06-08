@@ -30,6 +30,8 @@ import javax.crypto.spec.SecretKeySpec;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
     String[] PUBLIC_ENDPOINTS = {"/users", "/auth/token", "/auth/introspect"};
+    String[] SWAGGER_WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**"};
+
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -39,6 +41,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request -> request
                 .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                .requestMatchers(SWAGGER_WHITELIST).permitAll()
                 .anyRequest().authenticated()
         );
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
@@ -55,7 +58,7 @@ public class SecurityConfig {
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grandConverter = new JwtGrantedAuthoritiesConverter();
-        grandConverter.setAuthorityPrefix("ROLE_");
+        grandConverter.setAuthorityPrefix("");
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(grandConverter);
         return converter;

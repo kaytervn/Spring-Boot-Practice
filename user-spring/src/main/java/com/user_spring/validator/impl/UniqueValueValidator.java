@@ -28,7 +28,9 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValueCons
             return false;
         }
 
-        Query query = entityManager.createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e WHERE e." + fieldName + " = :value");
+        Query query = entityManager.createQuery(
+                "SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e WHERE UPPER(e." + fieldName + ") = UPPER(:value)"
+        );
         query.setParameter("value", value);
 
         Long count = (Long) query.getSingleResult();

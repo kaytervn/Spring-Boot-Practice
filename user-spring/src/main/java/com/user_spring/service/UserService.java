@@ -1,22 +1,22 @@
 package com.user_spring.service;
 
+import com.user_spring.constant.PredefinedRole;
 import com.user_spring.dto.request.UserCreationRequest;
 import com.user_spring.dto.request.UserUpdateRequest;
 import com.user_spring.dto.response.UserResponse;
 import com.user_spring.entity.User;
-import com.user_spring.enums.Role;
+import com.user_spring.entity.Role;
 import com.user_spring.exception.AppException;
 import com.user_spring.exception.message.ErrorMessage;
 import com.user_spring.mapper.UserMapper;
+import com.user_spring.repository.RoleRepository;
 import com.user_spring.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +30,13 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
 
     public UserResponse createUser(UserCreationRequest request) {
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
         user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -61,6 +62,9 @@ public class UserService {
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         userMapper.updateUserFromDto(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        List<Role> roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
