@@ -8,6 +8,7 @@ import com.user_spring.exception.message.ValidMessage;
 import com.user_spring.enums.Gender;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -76,13 +77,16 @@ public class GlobalExceptionHandler {
                 .replace("{" + ENUM_CLASS_ATTRIBUTE + "}", acceptedValuesString);
     }
 
-    @ExceptionHandler({ParseException.class, RuntimeException.class, JOSEException.class})
+    @ExceptionHandler({
+            ParseException.class,
+            RuntimeException.class,
+            JOSEException.class,
+    })
     ResponseEntity<?> handlingGeneralException(Exception exception) {
         ErrorMessage errorMessage = ErrorMessage.UNCATEGORIZED_EXCEPTION;
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(errorMessage.getStatus().value());
         apiResponse.setMessage(exception.getMessage());
-        System.out.println(exception);
         return ResponseEntity.status(errorMessage.getStatus()).body(apiResponse);
     }
 }

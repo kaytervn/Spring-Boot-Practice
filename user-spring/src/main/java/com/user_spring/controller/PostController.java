@@ -4,7 +4,6 @@ import com.user_spring.dto.request.PostCreationRequest;
 import com.user_spring.dto.request.PostUpdateRequest;
 import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.PostResponse;
-import com.user_spring.exception.AppException;
 import com.user_spring.service.PostService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -46,7 +45,7 @@ public class PostController {
     public ApiResponse<?> getPostsByUserId(@PathVariable String userId) {
         return ApiResponse.<List<PostResponse>>builder()
                 .status(HttpStatus.OK.value())
-                .data(postService.getPostsByUserId(userId))
+                .data(postService.getMyPosts(userId))
                 .build();
     }
 

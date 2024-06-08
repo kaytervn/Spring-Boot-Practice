@@ -38,7 +38,7 @@ public class PostService {
         return postMapper.toPostResponseList(postRepository.findAll());
     }
 
-    public List<PostResponse> getPostsByUserId(String userId) {
+    public List<PostResponse> getMyPosts(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         List<Post> posts = postRepository.findByUserId(user.getId());
         return postMapper.toPostResponseList(posts);

@@ -49,6 +49,14 @@ public class UserController {
                 .build();
     }
 
+    @GetMapping("/my-infor")
+    public ApiResponse<?> getMyInfor() {
+        return ApiResponse.builder()
+                .status(HttpStatus.OK.value())
+                .data(userService.getMyInfor())
+                .build();
+    }
+
     @PutMapping("/{userId}")
     public ApiResponse<?> updateUser(@PathVariable("userId") String id,
                                      @Valid @RequestBody UserUpdateRequest request) {
