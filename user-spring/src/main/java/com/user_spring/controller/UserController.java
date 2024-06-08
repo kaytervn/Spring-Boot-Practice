@@ -5,6 +5,7 @@ import com.user_spring.dto.request.UserUpdateRequest;
 import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.UserResponse;
 import com.user_spring.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Tag(name = "User Controller")
 public class UserController {
     UserService userService;
 

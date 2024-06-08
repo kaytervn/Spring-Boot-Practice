@@ -6,6 +6,7 @@ import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.PostResponse;
 import com.user_spring.exception.AppException;
 import com.user_spring.service.PostService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Tag(name = "Post Controller")
 public class PostController {
     PostService postService;
 

@@ -1,10 +1,11 @@
 package com.user_spring.exception;
 
+import com.nimbusds.jose.JOSEException;
 import com.user_spring.dto.response.ApiResponse;
 import com.user_spring.dto.response.ValidResponse;
-import com.user_spring.exception.enums.ErrorMessage;
-import com.user_spring.exception.enums.ValidMessage;
-import com.user_spring.validator.enums.Gender;
+import com.user_spring.exception.message.ErrorMessage;
+import com.user_spring.exception.message.ValidMessage;
+import com.user_spring.enums.Gender;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,18 +25,8 @@ public class GlobalExceptionHandler {
     private static final String ENUM_CLASS_ATTRIBUTE = "enumClass";
     private static final String ENTITY_CLASS = "entity";
 
-    @ExceptionHandler(value = RuntimeException.class)
-    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
-        ErrorMessage errorMessage = ErrorMessage.UNCATEGORIZED_EXCEPTION;
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setStatus(errorMessage.getStatus().value());
-        apiResponse.setMessage(errorMessage.getMessage());
-        System.out.println(exception);
-        return ResponseEntity.status(errorMessage.getStatus()).body(apiResponse);
-    }
-
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
+    ResponseEntity<?> handlingAppException(AppException exception) {
         ErrorMessage errorMessage = exception.getErrorMessage();
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(errorMessage.getStatus().value());
@@ -47,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception) {
+    ResponseEntity<?> handlingValidation(MethodArgumentNotValidException exception) {
         ErrorMessage errorMessage = ErrorMessage.INVALID_FORM;
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setMessage(errorMessage.getMessage());
@@ -82,5 +74,15 @@ public class GlobalExceptionHandler {
                 .replace("{" + MIN_ATTRIBUTE + "}", minValue)
                 .replace("{" + FIELD_NAME + "}", field)
                 .replace("{" + ENUM_CLASS_ATTRIBUTE + "}", acceptedValuesString);
+    }
+
+    @ExceptionHandler({ParseException.class, RuntimeException.class, JOSEException.class})
+    ResponseEntity<?> handlingGeneralException(Exception exception) {
+        ErrorMessage errorMessage = ErrorMessage.UNCATEGORIZED_EXCEPTION;
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setStatus(errorMessage.getStatus().value());
+        apiResponse.setMessage(exception.getMessage());
+        System.out.println(exception);
+        return ResponseEntity.status(errorMessage.getStatus()).body(apiResponse);
     }
 }

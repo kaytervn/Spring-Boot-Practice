@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -23,15 +24,13 @@ public class User {
 
     String password;
 
-    String firstName;
-
-    String lastName;
-
     LocalDate dateOfBirth;
 
     String phone;
 
     String gender;
+
+    Set<String> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;

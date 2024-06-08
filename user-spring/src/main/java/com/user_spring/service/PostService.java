@@ -6,7 +6,7 @@ import com.user_spring.dto.response.PostResponse;
 import com.user_spring.entity.Post;
 import com.user_spring.entity.User;
 import com.user_spring.exception.AppException;
-import com.user_spring.exception.enums.ErrorMessage;
+import com.user_spring.exception.message.ErrorMessage;
 import com.user_spring.mapper.PostMapper;
 import com.user_spring.mapper.UserMapper;
 import com.user_spring.repository.PostRepository;
