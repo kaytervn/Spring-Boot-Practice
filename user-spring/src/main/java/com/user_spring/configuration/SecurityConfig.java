@@ -1,7 +1,6 @@
 package com.user_spring.configuration;
 
 import com.user_spring.configuration.impl.JwtAuthenticationEntryPoint;
-import com.user_spring.enums.Role;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;

@@ -9,13 +9,14 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {MapperUtils.class})
+@Mapper(componentModel = "spring", uses = {MapperUtils.class, RoleMapper.class})
 public interface UserMapper {
     @Mapping(target = "gender", source = "gender", qualifiedByName = "toUpperCase")
     User toUser(UserCreationRequest request);
 
     @Named("userToUserResponse")
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "roles", qualifiedByName = "roleToRoleResponse")
     UserResponse toUserResponse(User user);
 
     @Mapping(target = "gender", source = "gender", qualifiedByName = "toUpperCase")

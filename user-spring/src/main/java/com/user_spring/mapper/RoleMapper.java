@@ -6,6 +6,7 @@ import com.user_spring.entity.Role;
 import com.user_spring.mapper.utils.MapperUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface RoleMapper {
     @Mapping(target = "permissions", ignore = true)
     Role toRole(RoleRequest request);
 
+    @Named("roleToRoleResponse")
     @Mapping(target = "name", source = "name", qualifiedByName = "toUpperCase")
     RoleResponse toRoleResponse(Role role);
 
