@@ -15,5 +15,4 @@ public class PostCreationRequest {
     @NotBlank(message = "NOT_BLANK_FIELD")
     String content;
     LocalDate createdDate;
-    String userId;
 }

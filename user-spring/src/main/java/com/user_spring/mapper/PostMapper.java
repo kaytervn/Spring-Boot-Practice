@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface PostMapper {
-    @Mapping(target = "user.id", source = "userId")
     Post toPost(PostCreationRequest request);
 
     void updatePostFromDto(@MappingTarget Post post, PostUpdateRequest request);

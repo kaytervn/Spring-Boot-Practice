@@ -8,12 +8,12 @@ import com.user_spring.entity.User;
 import com.user_spring.exception.AppException;
 import com.user_spring.exception.message.ErrorMessage;
 import com.user_spring.mapper.PostMapper;
-import com.user_spring.mapper.UserMapper;
 import com.user_spring.repository.PostRepository;
 import com.user_spring.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,10 +25,11 @@ public class PostService {
     PostRepository postRepository;
     UserRepository userRepository;
     PostMapper postMapper;
-    UserMapper userMapper;
+    UserService userService;
 
+    @PreAuthorize("hasAuthority('CREATE_POST')")
     public PostResponse createPost(PostCreationRequest request) {
-        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
+        User user = userService.getCurrentUser();
         Post post = postMapper.toPost(request);
         post.setUser(user);
         return postMapper.toPostResponse(postRepository.save(post));

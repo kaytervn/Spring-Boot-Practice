@@ -53,10 +53,14 @@ public class UserService {
     }
 
     public UserResponse getMyInfor() {
+        return userMapper.toUserResponse(getCurrentUser());
+    }
+
+    public User getCurrentUser() {
         var context = SecurityContextHolder.getContext();
         String username = context.getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
-        return userMapper.toUserResponse(user);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
     }
 
     public UserResponse updateUser(String id, UserUpdateRequest request) {
@@ -68,6 +72,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(String userId) {
         userRepository.findById(userId).orElseThrow(() -> new AppException(User.class, ErrorMessage.ENTITY_NOT_FOUND));
         userRepository.deleteById(userId);

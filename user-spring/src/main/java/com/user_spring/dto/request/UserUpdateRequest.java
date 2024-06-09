@@ -26,10 +26,6 @@ public class UserUpdateRequest {
     @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dateOfBirth;
 
-    @UniqueValueConstraint(entity = User.class, fieldName = "phone")
-    @Pattern(regexp = "^\\d{10}$", message = "INVALID_PHONE")
-    String phone;
-
     @EnumConstraint(enumClass = Gender.class)
     String gender;
 
