@@ -30,11 +30,15 @@
 | Dependency                     | Tag               |
 | ------------------------------ | ----------------- |
 | Spring Web                     | `WEB`             |
+| Validation                     | `I/O`             |
+| Spring Data JPA                | `SQL`             |
+| PostgreSQL Driver              | `SQL`             |
+| Lombok                         | `DEVELOPER TOOLS` |
+| OAuth2 Resource Server         | `SECURITY`        |
+| **Optional**                   | **Tag**           |
 | Spring HATEOAS                 | `WEB`             |
 | Rest Repositories HAL Explorer | `WEB`             |
 | Spring Boot DevTools           | `DEVELOPER TOOLS` |
-| Validation                     | `I/O`             |
-| Spring Data JPA                | `SQL`             |
 | H2 Database                    | `SQL`             |
 | Spring Boot Actuator           | `OPS`             |
 | Spring Security                | `SECURITY`        |
