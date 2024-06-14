@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.request.RoleRequest;
 import com.example.demo.dto.response.RoleResponse;
+import com.example.demo.entity.Permission;
 import com.example.demo.entity.Role;
 import com.example.demo.exception.AppException;
 import com.example.demo.mapper.RoleMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +29,8 @@ public class RoleService {
 
     public RoleResponse createRole(RoleRequest request) {
         Role role = roleMapper.toRole(request);
-        var permissions = permissionRepository.findAllById(request.getPermissions());
-        role.setPermissions(new HashSet<>(permissions));
+        Set<Permission> permissions = permissionRepository.findByNameIn(request.getPermissions());
+        role.setPermissions(permissions);
         return roleMapper.toRoleResponse(roleRepository.save(role));
     }
 

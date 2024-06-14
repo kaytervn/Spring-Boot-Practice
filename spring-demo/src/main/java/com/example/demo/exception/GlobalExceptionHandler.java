@@ -3,6 +3,7 @@ package com.example.demo.exception;
 import com.example.demo.configuration.Translator;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.InvalidResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +61,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
     }
 
-    @ExceptionHandler({RuntimeException.class,})
+    @ExceptionHandler({RuntimeException.class, ExpiredJwtException.class})
     ResponseEntity<?> handlingGeneralException(Exception exception) {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())

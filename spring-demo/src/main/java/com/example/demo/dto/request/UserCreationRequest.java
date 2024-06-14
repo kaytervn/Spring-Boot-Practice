@@ -6,6 +6,7 @@ import com.example.demo.validator.DobConstraint;
 import com.example.demo.validator.EnumConstraint;
 import com.example.demo.validator.UniqueConstraint;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -22,13 +23,13 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
     @UniqueConstraint(entity = User.class, fieldName = "username")
-    @Size(min = 5, message = "INVALID_FIELD_SIZE")
+    @NotBlank(message = "validation.not-blank")
     String username;
 
-    @Size(min = 3, message = "INVALID_FIELD_SIZE")
+    @NotBlank(message = "validation.not-blank")
     String password;
 
-    @DobConstraint(min = 18, message = "INVALID_DOB")
+    @DobConstraint(min = 18)
     LocalDate dateOfBirth;
 
     @EnumConstraint(enumClass = Gender.class)

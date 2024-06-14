@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EnumConstraint {
 
-    String message() default "INVALID_ENUM";
+    String message() default "validation.enum";
 
     Class<? extends Enum<?>> enumClass();
 

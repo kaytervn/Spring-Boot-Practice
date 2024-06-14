@@ -12,9 +12,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionRequest {
-    @NotBlank(message = "NOT_BLANK_FIELD")
+    @NotBlank(message = "validation.not-blank")
     @UniqueConstraint(entity = Permission.class, fieldName = "name")
     String name;
-    @NotBlank(message = "NOT_BLANK_FIELD")
+    @NotBlank(message = "validation.not-blank")
     String description;
 }

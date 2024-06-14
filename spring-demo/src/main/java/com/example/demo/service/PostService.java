@@ -23,11 +23,9 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PostService {
     PostRepository postRepository;
-    UserRepository userRepository;
     PostMapper postMapper;
     UserService userService;
 
-//    @PreAuthorize("hasAuthority('CREATE_POST')")
     public PostResponse createPost(PostRequest request) {
         User user = userService.getCurrentUser();
         Post post = postMapper.toPost(request);

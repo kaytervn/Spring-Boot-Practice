@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
@@ -15,13 +16,20 @@ import java.util.Locale;
 public class LocalResolver extends AcceptHeaderLocaleResolver implements WebMvcConfigurer {
 
     private final List<Locale> LANGUAGES = List.of(
-            Locale.of("en"),
-            Locale.of("vn")
+            Locale.of("en", "EN"),
+            Locale.of("vi", "VN")
     );
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
+        resolver.setDefaultLocale(Locale.US);
+        return resolver;
+    }
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
-        String languageHeader = request.getHeader("Accept-language");
+        String languageHeader = request.getHeader("Accept-Language");
         return StringUtils.isNotBlank(languageHeader) ?
                 Locale.lookup(Locale.LanguageRange.parse(languageHeader), LANGUAGES) :
                 Locale.getDefault();

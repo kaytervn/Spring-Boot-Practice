@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Constraint(validatedBy = UniqueValidator.class)
 public @interface UniqueConstraint {
-    String message() default "EXISTED_FIELD";
+    String message() default "validation.unique";
 
     Class<?>[] groups() default {};
 

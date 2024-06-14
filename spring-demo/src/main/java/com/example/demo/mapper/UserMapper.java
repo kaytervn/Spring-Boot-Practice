@@ -14,7 +14,13 @@ public interface UserMapper {
 
     @Named("userToUserResponse")
     @Mapping(target = "roles", qualifiedByName = "roleToRoleResponse")
+    @Mapping(target = "password", ignore = true)
     UserResponse toUserResponse(User user);
+
+    @Named("userToUserResponseWithoutRole")
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    UserResponse toUserResponseWithoutRole(User user);
 
     @Mapping(target = "roles", ignore = true)
     void updateUserFromDto(@MappingTarget User user, UserUpdateRequest request);

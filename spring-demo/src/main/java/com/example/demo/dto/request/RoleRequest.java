@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleRequest {
-    @NotBlank(message = "NOT_BLANK_FIELD")
+    @NotBlank(message = "validation.not-blank")
     @UniqueConstraint(entity = Role.class, fieldName = "name")
     String name;
     Set<String> permissions;

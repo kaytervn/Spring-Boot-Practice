@@ -12,10 +12,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SignInRequest {
-    @NotBlank(message = "NOT_BLANK_FIELD")
+    @NotBlank(message = "validation.not-blank")
     String username;
-    @NotBlank(message = "NOT_BLANK_FIELD")
+    @NotBlank(message = "validation.not-blank")
     String password;
-    @NotNull(message = "NOT_NULL_FIELD")
+    @NotNull(message = "validation.not-null")
     Platform platform;
 }

@@ -10,6 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IntrospectRequest {
-    @NotBlank(message = "NOT_BLANK_FIELD")
+    @NotBlank(message = "validation.not-blank")
     String token;
 }

@@ -15,7 +15,7 @@ public interface PostMapper {
 
     void updatePostFromDto(@MappingTarget Post post, PostRequest request);
 
-    @Mapping(target = "user", qualifiedByName = "userToUserResponse")
+    @Mapping(target = "user", qualifiedByName = "userToUserResponseWithoutRole")
     PostResponse toPostResponse(Post post);
 
     List<PostResponse> toPostResponseList(List<Post> posts);
