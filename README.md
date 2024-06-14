@@ -27,15 +27,17 @@
 
 **4.** Select dependencies.
 
-| Dependency                     | Tag               |
-| ------------------------------ | ----------------- |
-| Spring Web                     | `WEB`             |
-| Validation                     | `I/O`             |
-| Spring Data JPA                | `SQL`             |
-| PostgreSQL Driver              | `SQL`             |
-| Lombok                         | `DEVELOPER TOOLS` |
-| OAuth2 Resource Server         | `SECURITY`        |
+| Dependency             | Tag               |
+| ---------------------- | ----------------- |
+| Spring Web             | `WEB`             |
+| Validation             | `I/O`             |
+| Spring Data JPA        | `SQL`             |
+| PostgreSQL Driver      | `SQL`             |
+| Lombok                 | `DEVELOPER TOOLS` |
+| OAuth2 Resource Server | `SECURITY`        |
+
 | **Optional**                   | **Tag**           |
+| ------------------------------ | ----------------- |
 | Spring HATEOAS                 | `WEB`             |
 | Rest Repositories HAL Explorer | `WEB`             |
 | Spring Boot DevTools           | `DEVELOPER TOOLS` |
@@ -52,6 +54,81 @@
 **8.** Wait for **dependencies** download (`it really takes time for the first time using a specific version of Spring Boot or maybe my Internet capability sucks :D`).
 
 <h2 align="center">Configuration Notes</h2>
+
+### pom.xml configuration
+
+**Properties:**
+
+```xml
+<properties>
+	<java.version>22</java.version>
+	<projectlombok-lombok.version>1.18.32</projectlombok-lombok.version>
+	<mapstruct.version>1.5.5.Final</mapstruct.version>
+	<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+	<springdoc-version>2.5.0</springdoc-version>
+	<jsonwebtoken-version>0.12.5</jsonwebtoken-version>
+</properties>
+```
+
+**Dependencies:**
+
+```xml
+<dependency>
+	<groupId>org.springdoc</groupId>
+	<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	<version>${springdoc-version}</version>
+</dependency>
+<dependency>
+	<groupId>org.mapstruct</groupId>
+	<artifactId>mapstruct</artifactId>
+	<version>${mapstruct.version}</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework.security</groupId>
+	<artifactId>spring-security-crypto</artifactId>
+</dependency>
+<dependency>
+	<groupId>io.jsonwebtoken</groupId>
+	<artifactId>jjwt</artifactId>
+	<version>${jsonwebtoken-version}</version>
+</dependency>
+```
+
+**Plugin:**
+
+```xml
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<version>${maven-compiler-plugin.version}</version>
+	<configuration>
+		<source>${java.version}</source>
+		<target>${java.version}</target>
+		<annotationProcessorPaths>
+			<path>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${projectlombok-lombok.version}</version>
+			</path>
+			<path>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-mapstruct-binding</artifactId>
+				<version>${lombok-mapstruct-binding.version}</version>
+			</path>
+			<path>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-processor</artifactId>
+				<version>${mapstruct.version}</version>
+			</path>
+		</annotationProcessorPaths>
+		<compilerArgs>
+			<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
+			<arg>-Amapstruct.defaultComponentModel=spring</arg>
+			<arg>-Amapstruct.verbose=true</arg>
+		</compilerArgs>
+	</configuration>
+</plugin>
+```
 
 ### Social Media Application
 
