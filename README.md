@@ -490,7 +490,7 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 `Settings` -> `Editor` -> `Files Encoding`.
 
 | Global Encoding                           | UTF-8     |
-| ----------------------------------------- | --------- |
+| :---------------------------------------- | --------- |
 | **Project Encoding**                      | **UTF-8** |
 | **Project Encoding**                      | **UTF-8** |
 | **Default encoding for properties files** | **UTF-8** |
