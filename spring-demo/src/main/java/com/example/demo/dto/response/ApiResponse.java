@@ -15,6 +15,7 @@ import java.util.Date;
 public class ApiResponse<T> {
     Date timestamp;
     int status;
+    String reasonPhrase;
     String message;
     T data;
 }

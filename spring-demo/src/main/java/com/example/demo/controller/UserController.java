@@ -8,6 +8,7 @@ import com.example.demo.dto.response.UserResponse;
 import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -37,12 +38,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ApiResponse<?> getUsers() {
+    public ApiResponse<?> getUsers(
+            @Min(value = 0, message = "validation.param") @RequestParam(defaultValue = "0", required = false) int pageNo,
+            @Min(value = 10, message = "validation.param") @RequestParam(defaultValue = "20", required = false) int pageSize
+    ) {
         return ApiResponse.<List<UserResponse>>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
                 .message(MessageUtil.getMessage("user.success.create"))
-                .data(userService.getUsers())
+                .data(userService.getUsers(pageNo, pageSize))
                 .build();
     }
 

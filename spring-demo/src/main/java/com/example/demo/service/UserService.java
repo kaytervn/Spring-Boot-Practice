@@ -13,6 +13,9 @@ import com.example.demo.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -52,8 +55,14 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public List<UserResponse> getUsers() {
-        return userMapper.toUserResponseList(userRepository.findAll());
+    public List<UserResponse> getUsers(int pageNo, int pageSize) {
+        int page = 0;
+        if (pageNo > 0) {
+            page = pageNo - 1;
+        }
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<User> users = userRepository.findAll(pageable).getContent();
+        return userMapper.toUserResponseList(users);
     }
 
     public UserResponse getUser(String id) {
