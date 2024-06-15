@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.configuration.Translator;
+import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.request.IntrospectRequest;
 import com.example.demo.dto.request.SignInRequest;
 import com.example.demo.dto.response.ApiResponse;
@@ -34,7 +34,7 @@ public class AuthenticationController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.ACCEPTED.value())
-                .message(Translator.toLocale("token.error.invalid"))
+                .message(MessageUtil.getMessage("token.error.invalid"))
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class AuthenticationController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.ACCEPTED.value())
-                .message(Translator.toLocale("token.success.access"))
+                .message(MessageUtil.getMessage("token.success.access"))
                 .data(data)
                 .build();
     }
@@ -54,7 +54,7 @@ public class AuthenticationController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.NO_CONTENT.value())
-                .message(Translator.toLocale("token.success.destroy"))
+                .message(MessageUtil.getMessage("token.success.destroy"))
                 .build();
     }
 
@@ -63,7 +63,7 @@ public class AuthenticationController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.ACCEPTED.value())
-                .message(Translator.toLocale("token.success.refresh"))
+                .message(MessageUtil.getMessage("token.success.refresh"))
                 .build();
     }
 }

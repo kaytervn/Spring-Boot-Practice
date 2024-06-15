@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.configuration.Translator;
+import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.request.UserCreationRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
 import com.example.demo.dto.response.ApiResponse;
@@ -31,7 +31,7 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.CREATED.value())
-                .message(Translator.toLocale("user.success.create"))
+                .message(MessageUtil.getMessage("user.success.create"))
                 .data(userResponse)
                 .build();
     }
@@ -41,6 +41,7 @@ public class UserController {
         return ApiResponse.<List<UserResponse>>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .message(MessageUtil.getMessage("user.success.create"))
                 .data(userService.getUsers())
                 .build();
     }
@@ -69,7 +70,7 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .timestamp(new Date())
                 .data(userService.updateUser(id, request))
-                .message(Translator.toLocale("user.success.update"))
+                .message(MessageUtil.getMessage("user.success.update"))
                 .status(HttpStatus.ACCEPTED.value())
                 .build();
     }
@@ -79,9 +80,8 @@ public class UserController {
         userService.deleteUser(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
-                .message(Translator.toLocale("user.success.delete"))
+                .message(MessageUtil.getMessage("user.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();
     }
-
 }

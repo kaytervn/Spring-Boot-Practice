@@ -1,6 +1,6 @@
 package com.example.demo.exception;
 
-import com.example.demo.configuration.Translator;
+import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.InvalidResponse;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(exception.getHttpStatus().value())
-                .message(Translator.toLocale(exception.getMessage()))
+                .message(MessageUtil.getMessage(exception.getMessage()))
                 .build();
         return ResponseEntity.status(exception.getHttpStatus()).body(apiResponse);
     }
@@ -39,13 +39,13 @@ public class GlobalExceptionHandler {
             String message = error.getDefaultMessage();
             errors.add(InvalidResponse.builder()
                     .field(field)
-                    .message(Translator.toLocale(message))
+                    .message(MessageUtil.getMessage(message))
                     .build());
         });
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .message(Translator.toLocale("error.validation"))
+                .message(MessageUtil.getMessage("error.validation"))
                 .data(errors)
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.UNAUTHORIZED.value())
-                .message(Translator.toLocale("error.access-denied"))
+                .message(MessageUtil.getMessage("error.access-denied"))
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
     }
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(Translator.toLocale(exception.getLocalizedMessage()))
+                .message(MessageUtil.getMessage(exception.getLocalizedMessage()))
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }

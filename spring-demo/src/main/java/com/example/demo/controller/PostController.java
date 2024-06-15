@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.configuration.Translator;
+import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.request.PostRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.PostResponse;
@@ -30,7 +30,7 @@ public class PostController {
         return ApiResponse.<PostResponse>builder()
                 .status(HttpStatus.CREATED.value())
                 .timestamp(new Date())
-                .message(Translator.toLocale("post.success.create"))
+                .message(MessageUtil.getMessage("post.success.create"))
                 .data(postResponse)
                 .build();
     }
@@ -68,7 +68,7 @@ public class PostController {
         return ApiResponse.<PostResponse>builder()
                 .timestamp(new Date())
                 .data(postService.updatePost(id, request))
-                .message(Translator.toLocale("post.success.update"))
+                .message(MessageUtil.getMessage("post.success.update"))
                 .status(HttpStatus.ACCEPTED.value())
                 .build();
     }
@@ -78,7 +78,7 @@ public class PostController {
         postService.deletePost(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
-                .message(Translator.toLocale("post.success.delete"))
+                .message(MessageUtil.getMessage("post.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();
     }

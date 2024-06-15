@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.configuration.Translator;
+import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.request.RoleRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.RoleResponse;
@@ -29,7 +29,7 @@ public class RoleController {
         return ApiResponse.builder()
                 .status(HttpStatus.CREATED.value())
                 .timestamp(new Date())
-                .message(Translator.toLocale("role.success.create"))
+                .message(MessageUtil.getMessage("role.success.create"))
                 .data(response)
                 .build();
     }
@@ -48,7 +48,7 @@ public class RoleController {
         roleService.deleteRole(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
-                .message(Translator.toLocale("role.success.delete"))
+                .message(MessageUtil.getMessage("role.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();
     }

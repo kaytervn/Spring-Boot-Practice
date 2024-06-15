@@ -485,6 +485,20 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 
 ---
 
+### Eclipse: Encoding UTF-8
+
+`Settings` -> `Editor` -> `Files Encoding`.
+
+| Global Encoding                           | UTF-8     |
+| ----------------------------------------- | --------- |
+| **Project Encoding**                      | **UTF-8** |
+| **Project Encoding**                      | **UTF-8** |
+| **Default encoding for properties files** | **UTF-8** |
+
+--> Tick `Transparent native-to-ascii conversion`, then `Apply`.
+
+---
+
 ### Response Status
 
 - **GET**: `200 OK`

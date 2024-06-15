@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.configuration.Translator;
+import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.request.PermissionRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.PermissionResponse;
@@ -29,7 +29,7 @@ public class PermissionController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.CREATED.value())
-                .message(Translator.toLocale("permission.success.create"))
+                .message(MessageUtil.getMessage("permission.success.create"))
                 .data(response)
                 .build();
     }
@@ -48,7 +48,7 @@ public class PermissionController {
         permissionService.deletePermission(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
-                .message(Translator.toLocale("permission.success.delete"))
+                .message(MessageUtil.getMessage("permission.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();
     }
