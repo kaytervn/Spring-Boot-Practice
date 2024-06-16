@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +17,6 @@ import java.util.Set;
 public class Role extends AbstractEntity {
     String name;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Permission> permissions;
 }

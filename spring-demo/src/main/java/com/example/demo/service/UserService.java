@@ -29,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -99,6 +100,7 @@ public class UserService {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<?> getUsersAdvance(Pageable pageable, String[] user, String[] role) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 

@@ -1,26 +1,28 @@
 package com.example.demo.service;
 
+import com.example.demo.configuration.MessageUtil;
+import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.entity.User;
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jwt.JWTClaimsSet;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.crypto.SecretKey;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.function.Function;
 
 @Service
@@ -30,24 +32,7 @@ public class JwtService {
     private String SIGNER_KEY;
 
     public String generateToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("scope", buildScope(user));
-        return generateToken(claims, user);
-    }
-
-    String buildScope(User user) {
-        StringJoiner stringJoiner = new StringJoiner(" ");
-        if (!CollectionUtils.isEmpty(user.getRoles())) {
-            user.getRoles().forEach(role -> {
-                stringJoiner.add("ROLE_" + role.getName());
-                if (!CollectionUtils.isEmpty(role.getPermissions())) {
-                    role.getPermissions().forEach(permission -> {
-                        stringJoiner.add(permission.getName());
-                    });
-                }
-            });
-        }
-        return stringJoiner.toString();
+        return generateToken(new HashMap<>(), user);
     }
 
     String generateToken(Map<String, Object> claims, User user) {
@@ -55,8 +40,8 @@ public class JwtService {
                 .builder()
                 .claims(claims)
                 .subject(user.getUsername())
-                .issuedAt(new Date())
-                .expiration(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
+                .issuedAt(Date.from(Instant.now()))
+                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
                 .signWith(getKey(), Jwts.SIG.HS256)
                 .compact();
     }
@@ -70,9 +55,10 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public boolean isValid(String token, UserDetails userDetails) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername());
+        boolean isTokenExpired = extractClaim(token, Claims::getExpiration).before(Date.from(Instant.now()));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired);
     }
 
     <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
@@ -87,5 +73,20 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    public void exceptionResponse(HttpServletResponse response, String messageCode) throws IOException {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .message(MessageUtil.getMessage(messageCode))
+                .reasonPhrase(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .build();
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getOutputStream().write(objectMapper.writeValueAsBytes(apiResponse));
+        response.flushBuffer();
     }
 }

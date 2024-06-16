@@ -9,12 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -37,7 +37,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     int points;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -46,7 +46,13 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles.stream()
+                .flatMap(role -> Stream.concat(
+                        Stream.of(new SimpleGrantedAuthority("ROLE_" + role.getName())),
+                        role.getPermissions().stream().map(permission ->
+                                new SimpleGrantedAuthority(permission.getName()))
+                ))
+                .collect(Collectors.toSet());
     }
 
     @Override

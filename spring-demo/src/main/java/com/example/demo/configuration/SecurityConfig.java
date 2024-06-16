@@ -43,6 +43,7 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder;
     PreFilter preFilter;
     UserService userService;
+    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -50,18 +51,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
-//                .jwt(jwtConfigurer -> jwtConfigurer
-//                        .decoder(jwtDecoder())
-//                        .jwtAuthenticationConverter(jwtAuthenticationConverter())
-//                )
-//                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-//        );
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(WHITELIST).permitAll()
                         .anyRequest().authenticated())
+                .exceptionHandling((exception) -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(provider()).addFilterBefore(preFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -74,24 +69,6 @@ public class SecurityConfig {
         provider.setUserDetailsService(userService.userDetailsService());
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
-    }
-
-    @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter grandConverter = new JwtGrantedAuthoritiesConverter();
-        grandConverter.setAuthorityPrefix("");
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(grandConverter);
-        return converter;
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS256");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS256)
-                .build();
     }
 
     @Bean

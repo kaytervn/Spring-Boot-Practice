@@ -28,17 +28,6 @@ import java.util.Date;
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
-    @PostMapping("/introspect")
-    ApiResponse<?> introspect(@Valid @RequestBody IntrospectRequest request) throws JOSEException, ParseException {
-        authenticationService.introspect(request);
-        return ApiResponse.builder()
-                .timestamp(new Date())
-                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
-                .status(HttpStatus.ACCEPTED.value())
-                .message(MessageUtil.getMessage("token.error.invalid"))
-                .build();
-    }
-
     @PostMapping("/access")
     ApiResponse<?> login(@Valid @RequestBody SignInRequest request) throws JOSEException {
         var data = authenticationService.authenticate(request);
