@@ -17,5 +17,9 @@ public interface RoleMapper {
     @Named("roleToRoleResponse")
     RoleResponse toRoleResponse(Role role);
 
+    @Named("roleToRoleResponseWithoutPermissions")
+    @Mapping(target = "permissions", ignore = true)
+    RoleResponse toRoleResponseWithoutPermissions(Role role);
+
     List<RoleResponse> toRoleResponseList(List<Role> roles);
 }

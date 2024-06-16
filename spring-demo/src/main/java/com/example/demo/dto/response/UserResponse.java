@@ -20,5 +20,6 @@ public class UserResponse {
     String password;
     LocalDate dateOfBirth;
     String gender;
+    int points;
     Set<RoleResponse> roles;
 }

@@ -34,4 +34,6 @@ public class UserCreationRequest {
 
     @EnumConstraint(enumClass = Gender.class)
     String gender;
+
+    int points;
 }

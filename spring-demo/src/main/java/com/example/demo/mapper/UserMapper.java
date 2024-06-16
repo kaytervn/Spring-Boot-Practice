@@ -13,7 +13,7 @@ public interface UserMapper {
     User toUser(UserCreationRequest request);
 
     @Named("userToUserResponse")
-    @Mapping(target = "roles", qualifiedByName = "roleToRoleResponse")
+    @Mapping(target = "roles", qualifiedByName = "roleToRoleResponseWithoutPermissions")
     @Mapping(target = "password", ignore = true)
     UserResponse toUserResponse(User user);
 

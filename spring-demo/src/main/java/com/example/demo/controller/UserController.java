@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,14 +43,27 @@ public class UserController {
     public ApiResponse<?> getUsers(
             @Min(value = 0, message = "validation.param") @RequestParam(defaultValue = "0", required = false) int pageNo,
             @Min(value = 1, message = "validation.param") @RequestParam(defaultValue = "20", required = false) int pageSize,
-            @RequestParam(required = false) String... sorts
-
+            @RequestParam(defaultValue = "", required = false) String... sorts
     ) {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
                 .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(userService.getUsers(pageNo, pageSize, sorts))
+                .build();
+    }
+
+    @GetMapping("/advance")
+    public ApiResponse<?> getUsersAdvance(
+            Pageable pageable,
+            @RequestParam(defaultValue = "", required = false) String[] user,
+            @RequestParam(defaultValue = "", required = false) String[] role
+    ) {
+        return ApiResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
+                .data(userService.getUsersAdvance(pageable, user, role))
                 .build();
     }
 

@@ -1,7 +1,6 @@
 package com.example.demo.configuration;
 
-import com.example.demo.constant.PredefinedPermission;
-import com.example.demo.constant.PredefinedRole;
+import com.example.demo.constant.AppConst;
 import com.example.demo.entity.Permission;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -44,22 +43,22 @@ public class ApplicationConfig {
 
                 Set<Permission> permissions = new HashSet<>();
                 permissions.add(Permission.builder()
-                        .name(PredefinedPermission.CREATE_POST)
+                        .name(AppConst.CREATE_POST)
                         .description("User create a post")
                         .build());
                 permissions.add(Permission.builder()
-                        .name(PredefinedPermission.UPDATE_POST)
+                        .name(AppConst.UPDATE_POST)
                         .description("User update a post")
                         .build());
 
                 permissionRepository.saveAll(permissions);
 
                 roleRepository.save(Role.builder()
-                        .name(PredefinedRole.USER)
+                        .name(AppConst.ROLE_USER)
                         .permissions(permissions)
                         .build());
                 Role adminRole = roleRepository.save(Role.builder()
-                        .name(PredefinedRole.ADMIN)
+                        .name(AppConst.ROLE_ADMIN)
                         .permissions(permissions)
                         .build());
 
