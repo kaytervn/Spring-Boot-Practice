@@ -32,6 +32,7 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.CREATED.value())
+                .reasonPhrase(HttpStatus.CREATED.getReasonPhrase())
                 .message(MessageUtil.getMessage("user.success.create"))
                 .data(userResponse)
                 .build();
@@ -40,13 +41,15 @@ public class UserController {
     @GetMapping
     public ApiResponse<?> getUsers(
             @Min(value = 0, message = "validation.param") @RequestParam(defaultValue = "0", required = false) int pageNo,
-            @Min(value = 10, message = "validation.param") @RequestParam(defaultValue = "20", required = false) int pageSize
+            @Min(value = 1, message = "validation.param") @RequestParam(defaultValue = "20", required = false) int pageSize,
+            @RequestParam(required = false) String... sorts
+
     ) {
-        return ApiResponse.<List<UserResponse>>builder()
+        return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
-                .message(MessageUtil.getMessage("user.success.create"))
-                .data(userService.getUsers(pageNo, pageSize))
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
+                .data(userService.getUsers(pageNo, pageSize, sorts))
                 .build();
     }
 
@@ -55,6 +58,7 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(userService.getUser(id))
                 .build();
     }
@@ -64,6 +68,7 @@ public class UserController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(userService.getMyInfo())
                 .build();
     }
@@ -74,6 +79,7 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .timestamp(new Date())
                 .data(userService.updateUser(id, request))
+                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
                 .message(MessageUtil.getMessage("user.success.update"))
                 .status(HttpStatus.ACCEPTED.value())
                 .build();
@@ -84,6 +90,7 @@ public class UserController {
         userService.deleteUser(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.NO_CONTENT.getReasonPhrase())
                 .message(MessageUtil.getMessage("user.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();

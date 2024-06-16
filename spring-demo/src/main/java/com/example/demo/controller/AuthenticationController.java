@@ -33,6 +33,7 @@ public class AuthenticationController {
         authenticationService.introspect(request);
         return ApiResponse.builder()
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
                 .status(HttpStatus.ACCEPTED.value())
                 .message(MessageUtil.getMessage("token.error.invalid"))
                 .build();
@@ -43,6 +44,7 @@ public class AuthenticationController {
         var data = authenticationService.authenticate(request);
         return ApiResponse.builder()
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
                 .status(HttpStatus.ACCEPTED.value())
                 .message(MessageUtil.getMessage("token.success.access"))
                 .data(data)
@@ -53,6 +55,7 @@ public class AuthenticationController {
     ApiResponse<?> logout() {
         return ApiResponse.builder()
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.NO_CONTENT.getReasonPhrase())
                 .status(HttpStatus.NO_CONTENT.value())
                 .message(MessageUtil.getMessage("token.success.destroy"))
                 .build();
@@ -63,6 +66,7 @@ public class AuthenticationController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.ACCEPTED.value())
+                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
                 .message(MessageUtil.getMessage("token.success.refresh"))
                 .build();
     }

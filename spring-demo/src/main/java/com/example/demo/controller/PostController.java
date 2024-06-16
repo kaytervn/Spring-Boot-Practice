@@ -30,6 +30,7 @@ public class PostController {
         return ApiResponse.<PostResponse>builder()
                 .status(HttpStatus.CREATED.value())
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.CREATED.getReasonPhrase())
                 .message(MessageUtil.getMessage("post.success.create"))
                 .data(postResponse)
                 .build();
@@ -40,6 +41,7 @@ public class PostController {
         return ApiResponse.<List<PostResponse>>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(postService.getPosts())
                 .build();
     }
@@ -49,6 +51,7 @@ public class PostController {
         return ApiResponse.<List<PostResponse>>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(postService.getMyPosts())
                 .build();
     }
@@ -58,6 +61,7 @@ public class PostController {
         return ApiResponse.<PostResponse>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(postService.getPost(id))
                 .build();
     }
@@ -70,6 +74,7 @@ public class PostController {
                 .data(postService.updatePost(id, request))
                 .message(MessageUtil.getMessage("post.success.update"))
                 .status(HttpStatus.ACCEPTED.value())
+                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
                 .build();
     }
 
@@ -80,6 +85,7 @@ public class PostController {
                 .timestamp(new Date())
                 .message(MessageUtil.getMessage("post.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
+                .reasonPhrase(HttpStatus.NO_CONTENT.getReasonPhrase())
                 .build();
     }
 }

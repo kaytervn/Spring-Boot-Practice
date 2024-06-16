@@ -16,6 +16,4 @@ public class SignInRequest {
     String username;
     @NotBlank(message = "validation.not-blank")
     String password;
-    @NotNull(message = "validation.not-null")
-    Platform platform;
 }

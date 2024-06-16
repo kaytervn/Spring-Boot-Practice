@@ -27,6 +27,8 @@ public class UserUpdateRequest {
     @EnumConstraint(enumClass = Gender.class)
     String gender;
 
+    int points;
+
     @NotNull(message = "validation.not-null")
     Set<String> roles;
 }

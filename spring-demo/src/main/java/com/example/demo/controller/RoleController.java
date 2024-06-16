@@ -28,6 +28,7 @@ public class RoleController {
         RoleResponse response = roleService.createRole(request);
         return ApiResponse.builder()
                 .status(HttpStatus.CREATED.value())
+                .reasonPhrase(HttpStatus.CREATED.getReasonPhrase())
                 .timestamp(new Date())
                 .message(MessageUtil.getMessage("role.success.create"))
                 .data(response)
@@ -38,6 +39,7 @@ public class RoleController {
     public ApiResponse<?> getRoles() {
         return ApiResponse.builder()
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .timestamp(new Date())
                 .data(roleService.getRoles())
                 .build();
@@ -48,6 +50,7 @@ public class RoleController {
         roleService.deleteRole(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.NO_CONTENT.getReasonPhrase())
                 .message(MessageUtil.getMessage("role.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();

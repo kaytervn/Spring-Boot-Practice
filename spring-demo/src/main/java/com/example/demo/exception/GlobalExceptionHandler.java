@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
                 .timestamp(new Date())
                 .status(exception.getHttpStatus().value())
                 .message(MessageUtil.getMessage(exception.getMessage()))
+                .reasonPhrase(exception.getHttpStatus().getReasonPhrase())
                 .build();
         return ResponseEntity.status(exception.getHttpStatus()).body(apiResponse);
     }
@@ -54,6 +55,7 @@ public class GlobalExceptionHandler {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.BAD_REQUEST.value())
+                .reasonPhrase(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .message(MessageUtil.getMessage("error.validation.param"))
                 .data(errors)
                 .build();
@@ -75,6 +77,7 @@ public class GlobalExceptionHandler {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.BAD_REQUEST.value())
+                .reasonPhrase(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .message(MessageUtil.getMessage("error.validation"))
                 .data(errors)
                 .build();
@@ -86,6 +89,7 @@ public class GlobalExceptionHandler {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.UNAUTHORIZED.value())
+                .reasonPhrase(HttpStatus.UNAUTHORIZED.getReasonPhrase())
                 .message(MessageUtil.getMessage("error.access-denied"))
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
@@ -96,6 +100,7 @@ public class GlobalExceptionHandler {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .reasonPhrase(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .message(exception.getMessage())
                 .build();
         log.info("Uncategorized Exception: ", exception);

@@ -35,6 +35,8 @@ public class User extends AbstractEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     Gender gender;
 
+    int points;
+
     @ManyToMany
     Set<Role> roles;
 

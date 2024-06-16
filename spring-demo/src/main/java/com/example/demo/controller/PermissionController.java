@@ -29,6 +29,7 @@ public class PermissionController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.CREATED.value())
+                .reasonPhrase(HttpStatus.CREATED.getReasonPhrase())
                 .message(MessageUtil.getMessage("permission.success.create"))
                 .data(response)
                 .build();
@@ -39,6 +40,7 @@ public class PermissionController {
         return ApiResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())
+                .reasonPhrase(HttpStatus.OK.getReasonPhrase())
                 .data(permissionService.getPermissions())
                 .build();
     }
@@ -48,6 +50,7 @@ public class PermissionController {
         permissionService.deletePermission(id);
         return ApiResponse.<String>builder()
                 .timestamp(new Date())
+                .reasonPhrase(HttpStatus.NO_CONTENT.getReasonPhrase())
                 .message(MessageUtil.getMessage("permission.success.delete"))
                 .status(HttpStatus.NO_CONTENT.value())
                 .build();

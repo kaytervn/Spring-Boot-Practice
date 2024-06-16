@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.constant.PredefinedRole;
 import com.example.demo.dto.request.UserCreationRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
+import com.example.demo.dto.response.PageResponse;
 import com.example.demo.dto.response.UserResponse;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
@@ -10,21 +11,26 @@ import com.example.demo.exception.AppException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -55,14 +61,29 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public List<UserResponse> getUsers(int pageNo, int pageSize) {
-        int page = 0;
-        if (pageNo > 0) {
-            page = pageNo - 1;
+    public PageResponse<?> getUsers(int pageNo, int pageSize, String... sorts) {
+        List<Sort.Order> orders = new ArrayList<>();
+        for (String sortBy : sorts) {
+            if (StringUtils.isNotEmpty(sortBy)) {
+                Pattern pattern = Pattern.compile("(\\w+?):(asc|desc)", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(sortBy);
+                if (matcher.find()) {
+                    String property = matcher.group(1);
+                    Sort.Direction direction = matcher.group(2).equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+                    orders.add(new Sort.Order(direction, property));
+                }
+            }
         }
-        Pageable pageable = PageRequest.of(page, pageSize);
-        List<User> users = userRepository.findAll(pageable).getContent();
-        return userMapper.toUserResponseList(users);
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orders));
+        Page<User> usersPage = userRepository.findAll(pageable);
+        List<User> users = usersPage.getContent();
+        return PageResponse.builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalPages(usersPage.getTotalPages())
+                .items(userMapper.toUserResponseList(users))
+                .build();
     }
 
     public UserResponse getUser(String id) {
