@@ -51,7 +51,6 @@ public class UserService {
     RoleRepository roleRepository;
     SearchService searchService;
 
-    @NonFinal
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -103,78 +102,30 @@ public class UserService {
     public PageResponse<?> getUsersAdvance(Pageable pageable, String[] user, String[] role) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
-        // Creating the query to fetch results
         CriteriaQuery<User> query = builder.createQuery(User.class);
         Root<User> userRoot = query.from(User.class);
         Join<User, Role> roleRoot = userRoot.join("roles");
 
-        List<Predicate> userPreList = new ArrayList<>();
-        Pattern pattern = Pattern.compile(SEARCH_OPERATOR);
-        for (String u : user) {
-            Matcher matcher = pattern.matcher(u);
-            if (matcher.find()) {
-                SearchCriteria searchCriteria = new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3));
-                userPreList.add(searchService.toPredicate(userRoot, builder, searchCriteria));
-            }
-        }
-
-        List<Predicate> rolePreList = new ArrayList<>();
-        for (String r : role) {
-            Matcher matcher = pattern.matcher(r);
-            if (matcher.find()) {
-                SearchCriteria searchCriteria = new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3));
-                rolePreList.add(searchService.toPredicate(roleRoot, builder, searchCriteria));
-            }
-        }
-
-        Predicate userPre = builder.and(userPreList.toArray(new Predicate[0]));
-        Predicate rolePre = builder.and(rolePreList.toArray(new Predicate[0]));
+        Predicate userPre = searchService.buildPredicate(userRoot, builder, user);
+        Predicate rolePre = searchService.buildPredicate(roleRoot, builder, role);
         Predicate finalPre = builder.and(userPre, rolePre);
 
         query.where(finalPre);
+        searchService.applySort(pageable, userRoot, builder, query);
 
-        // Apply sorting
-        if (pageable.getSort().isSorted()) {
-            List<Order> orders = new ArrayList<>();
-            for (Sort.Order sortOrder : pageable.getSort()) {
-                Path<Object> path = userRoot.get(sortOrder.getProperty());
-                orders.add(sortOrder.isAscending() ? builder.asc(path) : builder.desc(path));
-            }
-            query.orderBy(orders);
-        }
-
-        // Creating the query to count results
+        // Count Total Pages
         CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
         Root<User> countRoot = countQuery.from(User.class);
         Join<User, Role> countRoleRoot = countRoot.join("roles");
 
-        List<Predicate> countUserPreList = new ArrayList<>();
-        for (String u : user) {
-            Matcher matcher = pattern.matcher(u);
-            if (matcher.find()) {
-                SearchCriteria searchCriteria = new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3));
-                countUserPreList.add(searchService.toPredicate(countRoot, builder, searchCriteria));
-            }
-        }
-
-        List<Predicate> countRolePreList = new ArrayList<>();
-        for (String r : role) {
-            Matcher matcher = pattern.matcher(r);
-            if (matcher.find()) {
-                SearchCriteria searchCriteria = new SearchCriteria(matcher.group(1), matcher.group(2), matcher.group(3));
-                countRolePreList.add(searchService.toPredicate(countRoleRoot, builder, searchCriteria));
-            }
-        }
-
-        Predicate countUserPre = builder.and(countUserPreList.toArray(new Predicate[0]));
-        Predicate countRolePre = builder.and(countRolePreList.toArray(new Predicate[0]));
+        Predicate countUserPre = searchService.buildPredicate(countRoot, builder, user);
+        Predicate countRolePre = searchService.buildPredicate(countRoleRoot, builder, role);
         Predicate finalCountPre = builder.and(countUserPre, countRolePre);
 
         countQuery.select(builder.count(countRoot)).where(finalCountPre);
         long totalElements = entityManager.createQuery(countQuery).getSingleResult();
         int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
 
-        // Get paginated results
         List<User> users = entityManager.createQuery(query)
                 .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
@@ -187,7 +138,6 @@ public class UserService {
                 .items(userMapper.toUserResponseList(users))
                 .build();
     }
-
 
 
     public UserResponse getUser(String id) {
