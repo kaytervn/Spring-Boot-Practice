@@ -67,6 +67,7 @@
 	<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	<springdoc-version>2.5.0</springdoc-version>
 	<jsonwebtoken-version>0.12.5</jsonwebtoken-version>
+	<slf4j-version>2.0.13</slf4j-version>
 </properties>
 ```
 
@@ -91,6 +92,11 @@
 	<groupId>io.jsonwebtoken</groupId>
 	<artifactId>jjwt</artifactId>
 	<version>${jsonwebtoken-version}</version>
+</dependency>
+<dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<version>${slf4j-version}</version>
 </dependency>
 ```
 

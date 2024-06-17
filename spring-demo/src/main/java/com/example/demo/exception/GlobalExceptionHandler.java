@@ -3,7 +3,6 @@ package com.example.demo.exception;
 import com.example.demo.configuration.MessageUtil;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.InvalidResponse;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
