@@ -5,6 +5,7 @@ import com.example.demo.dto.request.UserCreationRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
 import com.example.demo.dto.response.PageResponse;
 import com.example.demo.dto.response.UserResponse;
+import com.example.demo.dto.response.UserRoleResponse;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.exception.AppException;
@@ -12,22 +13,19 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.specification.SearchCriteria;
-import com.example.demo.repository.specification.SearchOperation;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,6 +71,16 @@ public class UserService {
         roleRepository.findByName(AppConst.ROLE_USER).ifPresent(roles::add);
         user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    public PageResponse<?> getUserRoles(Pageable pageable, String search) {
+        Page<UserRoleResponse> userPage = userRepository.findUserRoles(search, pageable);
+        return PageResponse.builder()
+                .pageNo(userPage.getNumber())
+                .pageSize(userPage.getSize())
+                .totalPages(userPage.getTotalPages())
+                .items(userPage.getContent())
+                .build();
     }
 
     public PageResponse<?> getUsers(int pageNo, int pageSize, String... sorts) {
