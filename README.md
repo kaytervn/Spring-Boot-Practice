@@ -507,6 +507,7 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 
 ```js
 pm.environment.set("bearerToken", pm.response.json().data.token);
+pm.environment.set("userId", pm.response.json().data.userId);
 ```
 
 ---
