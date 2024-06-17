@@ -15,13 +15,13 @@
 
 **2.** Select features.
 
-| Feature     | Selection |
-| ----------- | --------- |
-| Project     | `Maven`   |
-| Langguage   | `Java`    |
-| Spring Boot | `3.3.0`   |
-| Packaging   | `JAR`     |
-| Java        | `17`      |
+| Feature     | Selection  |
+| ----------- | ---------- |
+| Project     | `Maven`    |
+| Langguage   | `Java`     |
+| Spring Boot | `3.3.0`    |
+| Packaging   | `JAR`      |
+| Java        | `22`, `17` |
 
 **3.** Set **Group** ID, **Artifact** ID, and Project Name.
 
@@ -530,20 +530,11 @@ pm.environment.set("userId", pm.response.json().data.userId);
 
 | Code  | Status                |
 | :---: | --------------------- |
-| `200` | Success               |
-| `201` | Created               |
-| `202` | Accepted              |
-| `204` | No Content            |
 | `400` | Bad Request           |
 | `401` | Unauthorized          |
 | `403` | Forbidden             |
 | `404` | Not Found             |
-| `406` | Not Acceptable        |
-| `409` | Conflict              |
 | `500` | Internal Server Error |
-| `502` | Bad Gateway           |
-| `503` | Service Unavailable   |
-| `504` | Gateway Timeout       |
 
 ---
 
