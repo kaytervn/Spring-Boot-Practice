@@ -153,18 +153,6 @@ User -> Posts (one to many)
 | Create a posts for a User     | POST /users/{id}/posts          |
 | Retrieve details of a post    | GET /users/{id}/posts/{post_id} |
 
-<h2>Maven error "Failure to transfer..."</h2>
-
-### Remove all failed downloads:
-
-**1.** Run `cmd`.
-
-**2.** `cd C:\Users\kiend\.m2\repository`.
-
-**3.** `for /r %i in (*.lastUpdated) do del %i`.
-
-**4.** Right click on the project in Eclipse -> `Maven` -> `Update Project...`
-
 <h2>Internationalization</h2>
 
 | Configuration                                                                            | Usage                                                                                                                                                                 |
@@ -199,7 +187,8 @@ private Date dateOfBirth;
 List<String> permissions;
 ```
 
-<h3>Advanced validation</h3>
+<details>
+  <summary>Advanced validation</summary>
 
 **1.** Create anotation class:
 
@@ -254,9 +243,12 @@ public class PhoneValidator implements ConstraintValidator<PhoneNumber, String> 
 String phone;
 ```
 
+</details>
+
 <h2>Enum Validation</h2>
 
-<h3>Method 1: Regular Expression (Regexp)</h3>
+<details>
+  <summary>Method 1: Regular Expression (Regexp)</summary>
 
 **1.** Create enum class:
 
@@ -333,10 +325,11 @@ _It allows applying to other enums:_
 private Gender status;
 ```
 
----
+</details>
 
-<h3>Method 2: String Value</h3>
-
+<details>
+  <summary>Method 2: String Value</summary>
+  
 **1.** Create enum class:
 
 ```java
@@ -400,10 +393,11 @@ _It allows applying to other enums and handling exception_
 
 **--> Best recommended method**
 
----
+</details>
 
-<h3>Method 3: Specifying Values</h3>
-
+<details>
+  <summary>Method 3: Specifying Values</summary>
+  
 **1.** Create enum class:
 
 ```java
@@ -465,6 +459,8 @@ _It allows specifying **particular values** to validate within the enum instead 
 private Gender gender;
 ```
 
+</details>
+
 <h2 align="center">Notes</h2>
 
 ### Eclipse IDE
@@ -472,6 +468,20 @@ private Gender gender;
 - **Run server:** run file `{ProjectName}Application.java` as **Java Application**.
 
 - Restart server after adding new dependencies: On **Console** bar, `Terminate` -> `Remove All Terminated Launches`, then `Run` again.
+
+---
+
+### Eclipse: Maven error "Failure to transfer..."
+
+#### Remove all failed downloads:
+
+**1.** Run `cmd`.
+
+**2.** `cd C:\Users\kiend\.m2\repository`.
+
+**3.** `for /r %i in (*.lastUpdated) do del %i`.
+
+**4.** Right click on the project in Eclipse -> `Maven` -> `Update Project...`
 
 ---
 
