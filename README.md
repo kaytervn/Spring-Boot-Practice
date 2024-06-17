@@ -485,7 +485,7 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 
 ---
 
-### Eclipse: Encoding UTF-8
+### IntelliJ IDE: Encoding UTF-8
 
 `Settings` -> `Editor` -> `Files Encoding`.
 
@@ -496,6 +496,18 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 | **Default encoding for properties files** | **UTF-8** |
 
 --> Tick `Transparent native-to-ascii conversion`, then `Apply`.
+
+---
+
+### Postman: Storing and using environment variables
+
+`Environments` -> `Create new environment` -> Set variables -> Back to `Collections`, then choose your created environment set.
+
+**Scripts:** _(On logging in request)_
+
+```js
+pm.environment.set("bearerToken", pm.response.json().data.token);
+```
 
 ---
 

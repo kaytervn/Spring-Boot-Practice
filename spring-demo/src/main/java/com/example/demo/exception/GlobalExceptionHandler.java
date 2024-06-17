@@ -99,7 +99,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
     }
 
-    @ExceptionHandler({RuntimeException.class, ExpiredJwtException.class})
+    @ExceptionHandler({RuntimeException.class})
     ResponseEntity<?> handlingGeneralException(Exception exception) {
         var apiResponse = ApiResponse.builder()
                 .timestamp(new Date())
