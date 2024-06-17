@@ -328,7 +328,7 @@ private Gender status;
 </details>
 
 <details>
-  <summary>Method 2: String Value</summary>
+  <summary>Method 2: String Value (Recommended)</summary>
   
 **1.** Create enum class:
 
