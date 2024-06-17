@@ -492,7 +492,6 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 | Global Encoding                           | UTF-8     |
 | :---------------------------------------- | --------- |
 | **Project Encoding**                      | **UTF-8** |
-| **Project Encoding**                      | **UTF-8** |
 | **Default encoding for properties files** | **UTF-8** |
 
 --> Tick `Transparent native-to-ascii conversion`, then `Apply`.
