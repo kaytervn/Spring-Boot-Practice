@@ -1,4 +1,4 @@
-package com.example.demo.configuration;
+package com.example.demo.configuration.locale;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.example.demo.configuration;
+package com.example.demo.configuration.locale;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import java.nio.charset.StandardCharsets;
@@ -44,5 +45,10 @@ public class LocaleConfiguration extends AcceptHeaderLocaleResolver {
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
 
         return messageSource;
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new LocaleConfiguration();
     }
 }

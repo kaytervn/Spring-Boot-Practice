@@ -77,11 +77,6 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public LocaleResolver localeResolver() {
-        return new LocaleConfiguration();
-    }
-
-    @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }

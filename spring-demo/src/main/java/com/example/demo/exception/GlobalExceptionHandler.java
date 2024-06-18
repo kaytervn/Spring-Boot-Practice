@@ -1,6 +1,6 @@
 package com.example.demo.exception;
 
-import com.example.demo.configuration.MessageUtil;
+import com.example.demo.configuration.locale.MessageUtil;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.InvalidResponse;
 import lombok.RequiredArgsConstructor;

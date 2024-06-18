@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.configuration.MessageUtil;
+import com.example.demo.configuration.locale.MessageUtil;
 import com.example.demo.dto.request.PostRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.PostResponse;
@@ -37,7 +37,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ApiResponse<?> getPosts() {
+    public ApiResponse<?> getPosts() throws InterruptedException {
         return ApiResponse.<List<PostResponse>>builder()
                 .timestamp(new Date())
                 .status(HttpStatus.OK.value())

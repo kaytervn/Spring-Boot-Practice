@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.configuration.MessageUtil;
+import com.example.demo.configuration.locale.MessageUtil;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
