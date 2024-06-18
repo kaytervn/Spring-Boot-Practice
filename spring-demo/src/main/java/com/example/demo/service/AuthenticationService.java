@@ -1,14 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.request.IntrospectRequest;
 import com.example.demo.dto.request.SignInRequest;
 import com.example.demo.dto.response.TokenResponse;
 import com.example.demo.entity.User;
 import com.example.demo.exception.AppException;
 import com.example.demo.repository.UserRepository;
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.SignedJWT;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,9 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
