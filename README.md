@@ -27,17 +27,18 @@
 
 **4.** Select dependencies.
 
-| Dependency             | Tag               |
-| ---------------------- | ----------------- |
-| Spring Web             | `WEB`             |
-| Validation             | `I/O`             |
-| Spring Data JPA        | `SQL`             |
-| PostgreSQL Driver      | `SQL`             |
-| Lombok                 | `DEVELOPER TOOLS` |
-| OAuth2 Resource Server | `SECURITY`        |
+| Dependency        | Tag               |
+| ----------------- | ----------------- |
+| Spring Web        | `WEB`             |
+| Validation        | `I/O`             |
+| Java Mail Sender  | `I/O`             |
+| Spring Data JPA   | `SQL`             |
+| PostgreSQL Driver | `SQL`             |
+| Lombok            | `DEVELOPER TOOLS` |
 
 | **Optional**                   | **Tag**           |
 | ------------------------------ | ----------------- |
+| OAuth2 Resource Server         | `SECURITY`        |
 | Spring HATEOAS                 | `WEB`             |
 | Rest Repositories HAL Explorer | `WEB`             |
 | Spring Boot DevTools           | `DEVELOPER TOOLS` |
@@ -521,8 +522,10 @@ Auto activation triggers for Java: `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 **Scripts:** _(On logging in request)_
 
 ```js
-pm.environment.set("bearerToken", pm.response.json().data.token);
-pm.environment.set("userId", pm.response.json().data.userId);
+if (pm.response.json().data != null) {
+  pm.environment.set("bearerToken", pm.response.json().data.token);
+  pm.environment.set("userId", pm.response.json().data.userId);
+}
 ```
 
 ---

@@ -1,15 +1,12 @@
 package com.example.demo.entity;
 
 import com.example.demo.enums.Gender;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -26,9 +23,15 @@ import java.util.stream.Stream;
 @Table(name = "users")
 public class User extends AbstractEntity implements UserDetails {
 
+    @Column(unique = true)
+    String email;
+
+    @Column(unique = true)
     String username;
 
     String password;
+
+    boolean enabled;
 
     LocalDate dateOfBirth;
 
@@ -72,6 +75,6 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return enabled;
     }
 }

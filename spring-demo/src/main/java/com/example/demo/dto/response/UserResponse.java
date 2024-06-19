@@ -16,7 +16,9 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
     String id;
+    String email;
     String username;
+    boolean enabled;
     String password;
     LocalDate dateOfBirth;
     String gender;

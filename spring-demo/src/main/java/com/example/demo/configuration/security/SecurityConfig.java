@@ -29,8 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
-    String[] PUBLIC_ENDPOINTS = {"/users"};
-    String[] WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/auth/**"};
+    String[] WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/auth/**", "/users/**"};
     PasswordEncoder passwordEncoder;
     PreFilter preFilter;
     UserService userService;
@@ -44,7 +43,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(WHITELIST).permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))

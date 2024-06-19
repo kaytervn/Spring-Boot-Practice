@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.dto.request.UserCreationRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
 import com.example.demo.dto.response.UserResponse;
@@ -11,6 +12,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {RoleMapper.class})
 public interface UserMapper {
     User toUser(UserCreationRequest request);
+
+    User toUser(RegisterRequest request);
 
     @Named("userToUserResponse")
     @Mapping(target = "roles", qualifiedByName = "roleToRoleResponseWithoutPermissions")
