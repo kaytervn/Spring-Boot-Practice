@@ -42,29 +42,6 @@ public class UserController {
                 .build();
     }
 
-    @PostMapping("/register")
-    public ApiResponse<?> registerUser(@RequestBody @Valid RegisterRequest request) {
-        UserResponse userResponse = userService.registerUser(request);
-        return ApiResponse.builder()
-                .timestamp(new Date())
-                .status(HttpStatus.CREATED.value())
-                .reasonPhrase(HttpStatus.CREATED.getReasonPhrase())
-                .message(MessageUtil.getMessage("user.success.create"))
-                .data(userResponse)
-                .build();
-    }
-
-    @GetMapping("/registration-confirm")
-    public ApiResponse<?> confirmRegistration(@RequestParam(value = "token") String token) {
-        userService.confirmRegistration(token);
-        return ApiResponse.builder()
-                .timestamp(new Date())
-                .status(HttpStatus.ACCEPTED.value())
-                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
-                .message(MessageUtil.getMessage("user.success.verify"))
-                .build();
-    }
-
     @GetMapping
     public ApiResponse<?> getUsers(
             @Min(value = 0, message = "validation.param") @RequestParam(defaultValue = "0", required = false) int pageNo,

@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
-    String[] WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/auth/**", "/users/**"};
+    String[] WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/auth/**"};
     PasswordEncoder passwordEncoder;
     PreFilter preFilter;
     UserService userService;

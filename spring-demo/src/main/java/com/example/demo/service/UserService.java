@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.constant.AppConst;
-import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.dto.request.UserCreationRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
 import com.example.demo.dto.response.PageResponse;
@@ -9,13 +8,10 @@ import com.example.demo.dto.response.UserResponse;
 import com.example.demo.dto.response.UserRoleResponse;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
-import com.example.demo.entity.VerificationToken;
-import com.example.demo.event.OnRegistrationCompleteEvent;
 import com.example.demo.exception.AppException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.VerificationTokenRepository;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -24,7 +20,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,9 +44,7 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
-    VerificationTokenRepository verificationTokenRepository;
     SearchService searchService;
-    ApplicationEventPublisher eventPublisher;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -74,35 +67,6 @@ public class UserService {
         roleRepository.findByName(AppConst.ROLE_USER).ifPresent(roles::add);
         user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
-    }
-
-    public void createVerificationToken(User user, String token) {
-        verificationTokenRepository.save(VerificationToken.builder()
-                .token(token)
-                .user(user)
-                .build());
-    }
-
-    public UserResponse registerUser(RegisterRequest request) {
-        User user = userMapper.toUser(request);
-        HashSet<Role> roles = new HashSet<>();
-        roleRepository.findByName(AppConst.ROLE_USER).ifPresent(roles::add);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRoles(roles);
-        user.setEnabled(false);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(userRepository.save(user)));
-        return userMapper.toUserResponse(user);
-    }
-
-    public void confirmRegistration(String token) {
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new AppException("verify-token.error.not-found", HttpStatus.NOT_FOUND));
-        if (verificationToken.isExpired()) {
-            throw new AppException("verify-token.error.expired", HttpStatus.BAD_REQUEST);
-        }
-        User user = verificationToken.getUser();
-        user.setEnabled(true);
-        userRepository.save(user);
     }
 
     public PageResponse<?> getUserRoles(Pageable pageable, String search) {

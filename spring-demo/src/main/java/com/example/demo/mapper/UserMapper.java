@@ -3,8 +3,10 @@ package com.example.demo.mapper;
 import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.dto.request.UserCreationRequest;
 import com.example.demo.dto.request.UserUpdateRequest;
+import com.example.demo.dto.response.RegisterResponse;
 import com.example.demo.dto.response.UserResponse;
 import com.example.demo.entity.User;
+import com.example.demo.entity.VerificationToken;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public interface UserMapper {
     @Mapping(target = "roles", qualifiedByName = "roleToRoleResponseWithoutPermissions")
     @Mapping(target = "password", ignore = true)
     UserResponse toUserResponse(User user);
+
+    @Mapping(target = "user", qualifiedByName = "userToUserResponse")
+    RegisterResponse toRegisterResponse(VerificationToken verificationToken);
 
     @Named("userToUserResponseWithoutRole")
     @Mapping(target = "password", ignore = true)
