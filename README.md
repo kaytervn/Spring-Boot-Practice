@@ -38,6 +38,7 @@
 
 | **Optional**                   | **Tag**           |
 | ------------------------------ | ----------------- |
+| Spring for Apache ActiveMQ 5   | `MESSAGING`       |
 | OAuth2 Resource Server         | `SECURITY`        |
 | Spring HATEOAS                 | `WEB`             |
 | Rest Repositories HAL Explorer | `WEB`             |
