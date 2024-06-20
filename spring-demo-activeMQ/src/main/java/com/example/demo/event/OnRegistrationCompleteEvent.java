@@ -9,10 +9,10 @@ import org.springframework.context.ApplicationEvent;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
-    VerificationToken verificationToken;
+    String token;
 
-    public OnRegistrationCompleteEvent(VerificationToken verificationToken) {
-        super(verificationToken);
-        this.verificationToken = verificationToken;
+    public OnRegistrationCompleteEvent(String token) {
+        super(token);
+        this.token = token;
     }
 }

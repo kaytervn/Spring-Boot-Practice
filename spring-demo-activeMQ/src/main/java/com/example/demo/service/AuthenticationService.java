@@ -79,7 +79,7 @@ public class AuthenticationService {
                         .token(token)
                         .build());
 
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(verificationToken));
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(verificationToken.getToken()));
 
         return userMapper.toRegisterResponse(verificationToken);
     }
@@ -90,7 +90,7 @@ public class AuthenticationService {
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.resetExpiryDate();
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(
-                verificationTokenRepository.save(verificationToken)
+                verificationTokenRepository.save(verificationToken).getToken()
         ));
 
         return userMapper.toRegisterResponse(verificationToken);
