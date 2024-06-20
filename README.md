@@ -27,14 +27,15 @@
 
 **4.** Select dependencies.
 
-| Dependency        | Tag               |
-| ----------------- | ----------------- |
-| Spring Web        | `WEB`             |
-| Validation        | `I/O`             |
-| Java Mail Sender  | `I/O`             |
-| Spring Data JPA   | `SQL`             |
-| PostgreSQL Driver | `SQL`             |
-| Lombok            | `DEVELOPER TOOLS` |
+| Dependency          | Tag               |
+| ------------------- | ----------------- |
+| Spring Web          | `WEB`             |
+| Validation          | `I/O`             |
+| Java Mail Sender    | `I/O`             |
+| Spring Data JPA     | `SQL`             |
+| PostgreSQL Driver   | `SQL`             |
+| Liquibase Migration | `SQL`             |
+| Lombok              | `DEVELOPER TOOLS` |
 
 | **Optional**                   | **Tag**           |
 | ------------------------------ | ----------------- |
