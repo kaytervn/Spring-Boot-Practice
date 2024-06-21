@@ -87,6 +87,16 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.5.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -137,9 +147,46 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.27.0</version>
                 <configuration>
-                    <propertyFile>src/main/resources/db/liquibase.properties</propertyFile>
+                    <!--<propertyFile>src/main/resources/db/liquibase.properties</propertyFile>-->
+                    <diffChangeLogFile>src/main/resources/db/changelog/${maven.build.timestamp}_changelog.xml
+                    </diffChangeLogFile>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml.xml</changeLogFile>
+                    <outputChangeLogFile>src/main/resources/db/changelog/db.changelog-init.xml</outputChangeLogFile>
+                    <referenceUrl>
+                        hibernate:spring:com.example.demo.entity?dialect=org.hibernate.dialect.PostgreSQLDialect
+                        &amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+                        &amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+                    </referenceUrl>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://localhost:5432/spring-demo</url>
+                    <username>postgres</username>
+                    <password>123</password>
+                    <verbose>true</verbose>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.liquibase.ext</groupId>
+                        <artifactId>liquibase-hibernate5</artifactId>
+                        <version>4.27.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-orm</artifactId>
+                        <version>6.1.10</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                        <version>6.1.10</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                        <version>6.1.10</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
