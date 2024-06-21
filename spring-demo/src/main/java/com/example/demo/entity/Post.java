@@ -15,10 +15,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "posts")
 public class Post extends AbstractEntity {
-    private String content;
+    String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
-    private User user;
+    User user;
 }
