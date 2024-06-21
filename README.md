@@ -39,14 +39,15 @@
 
 | **Optional**                   | **Tag**           |
 | ------------------------------ | ----------------- |
-| Spring for Apache ActiveMQ 5   | `MESSAGING`       |
-| OAuth2 Resource Server         | `SECURITY`        |
 | Spring HATEOAS                 | `WEB`             |
 | Rest Repositories HAL Explorer | `WEB`             |
-| Spring Boot DevTools           | `DEVELOPER TOOLS` |
 | H2 Database                    | `SQL`             |
+| MySQL Driver                   | `SQL`             |
 | Spring Boot Actuator           | `OPS`             |
+| OAuth2 Resource Server         | `SECURITY`        |
 | Spring Security                | `SECURITY`        |
+| Spring for Apache ActiveMQ 5   | `MESSAGING`       |
+| Spring Boot DevTools           | `DEVELOPER TOOLS` |
 
 **5.** Click `Generate` (automatically download a zip file).
 
