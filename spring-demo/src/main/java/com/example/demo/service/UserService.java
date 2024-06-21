@@ -47,7 +47,7 @@ public class UserService {
     SearchService searchService;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
