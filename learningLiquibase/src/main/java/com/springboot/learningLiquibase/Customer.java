@@ -22,9 +22,11 @@ public class Customer {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "points", nullable = false)
-    private int points;
-
     @Column(name = "likes", nullable = false)
     private int likes;
+
+    @Column(name = "haha", nullable = false)
+    private int haha;
+
+    private int hihi;
 }

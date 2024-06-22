@@ -45,7 +45,9 @@ public class User extends AbstractEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Post> posts;
+    List<Post> posts;
+
+    String address;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

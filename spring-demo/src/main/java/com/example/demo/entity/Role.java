@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role extends AbstractEntity {
     String name;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Permission> permissions;
 }

@@ -70,10 +70,10 @@
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
                     <outputChangeLogFile>src/main/resources/db/changelog/db.changelog-1.0.2.xml</outputChangeLogFile>
                     <diffChangeLogFile>
-                        src/main/resources/db/changelog/diff_changelog.xml
+                        src/main/resources/db/changelog/diff_changelog-1.0.1.xml
                     </diffChangeLogFile>
                     <driver>com.mysql.cj.jdbc.Driver</driver>
-                    <url>jdbc:mysql://localhost:3306/customer?useSSL=false&amp;serverTimezone=UTC</url>
+                    <url>jdbc:mysql://localhost:3306/customer?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</url>
                     <username>root</username>
                     <password>1234</password>
                     <referenceUrl>
