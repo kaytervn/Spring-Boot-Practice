@@ -18,8 +18,8 @@
 | Feature     | Selection  |
 | ----------- | ---------- |
 | Project     | `Maven`    |
-| Langguage   | `Java`     |
-| Spring Boot | `3.3.0`    |
+| Language    | `Java`     |
+| Spring Boot | `3.3.1`    |
 | Packaging   | `JAR`      |
 | Java        | `22`, `17` |
 
