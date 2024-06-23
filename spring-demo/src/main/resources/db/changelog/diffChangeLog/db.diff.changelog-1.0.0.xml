@@ -29,4 +29,25 @@
     <changeSet author="kiend (generated)" id="1719020914806-4">
         <addPrimaryKey columnNames="user_id, roles_id" constraintName="users_rolesPK" tableName="users_roles"/>
     </changeSet>
+    <changeSet author="kiend (generated)" id="1719021867686-1">
+        <addColumn tableName="posts">
+            <column name="dislikes" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kiend (generated)" id="1719021867686-2">
+        <addColumn tableName="posts">
+            <column name="likes" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kiend (generated)" id="1719022146315-1">
+        <addColumn tableName="posts">
+            <column name="favorites" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

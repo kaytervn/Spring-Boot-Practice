@@ -23,10 +23,7 @@ import java.util.*;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({
-            AppException.class,
-            InternalAuthenticationServiceException.class
-    })
+    @ExceptionHandler(value = AppException.class)
     ResponseEntity<?> handlingAppException(AppException exception) {
         ApiResponse<?> apiResponse = ApiResponse.builder()
                 .timestamp(new Date())

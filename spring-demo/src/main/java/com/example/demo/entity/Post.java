@@ -21,4 +21,10 @@ public class Post extends AbstractEntity {
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     User user;
+
+    int likes;
+
+    int dislikes;
+
+    int favorites;
 }

@@ -24,6 +24,7 @@
         <liquibase.version>4.27.0</liquibase.version>
         <spring.version>6.1.10</spring.version>
         <jakarta.validation.version>3.1.0</jakarta.validation.version>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
     </properties>
     <dependencies>
         <dependency>
@@ -143,6 +144,13 @@
                 <version>${liquibase.version}</version>
                 <configuration>
                     <propertyFile>src/main/resources/db/liquibase.properties</propertyFile>
+                    <changeSetAuthor>Spring DEMO</changeSetAuthor>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+                    <outputChangeLogFile>src/main/resources/db/changelog/db.changelog-${maven.build.timestamp}.xml
+                    </outputChangeLogFile>
+                    <diffChangeLogFile>
+                        src/main/resources/db/changelog/diffChangeLog/db.diff.changelog-${maven.build.timestamp}.xml
+                    </diffChangeLogFile>
                     <referenceUrl>
                         hibernate:spring:com.example.demo.entity?dialect=org.hibernate.dialect.PostgreSQLDialect
                         &amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy

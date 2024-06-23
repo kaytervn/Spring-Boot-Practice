@@ -1,6 +1,7 @@
 package com.example.demo.configuration.security;
 
 import com.example.demo.configuration.filter.PreFilter;
+import com.example.demo.configuration.filter.PreFilterRSA;
 import com.example.demo.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     String[] WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/auth/**"};
     PasswordEncoder passwordEncoder;
-    PreFilter preFilter;
+    //    PreFilter preFilter;
+    PreFilterRSA preFilterRSA;
     UserService userService;
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -47,7 +49,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(provider()).addFilterBefore(preFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(provider())
+                .addFilterBefore(preFilterRSA, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }

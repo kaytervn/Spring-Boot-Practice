@@ -1,27 +1,24 @@
 package com.example.demo.service;
 
-import com.example.demo.configuration.locale.MessageUtil;
-import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.entity.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import java.io.IOException;
+import java.math.BigInteger;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +26,16 @@ import java.util.function.Function;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JwtService {
+@Slf4j
+public class JwtServiceRSA {
+    KeyPair keyPair;
 
-    @Value("${jwt.signerKey}")
-    String SIGNER_KEY;
+    @PostConstruct
+    public void init() throws NoSuchAlgorithmException {
+        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
+        gen.initialize(2048);
+        keyPair = gen.generateKeyPair();
+    }
 
     public String generateToken(UserDetails user) {
         return generateToken(new HashMap<>(), user);
@@ -45,13 +48,8 @@ public class JwtService {
                 .subject(user.getUsername())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
-                .signWith(getKey(), Jwts.SIG.HS256)
+                .signWith(keyPair.getPrivate(), Jwts.SIG.RS256)
                 .compact();
-    }
-
-    private SecretKey getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SIGNER_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String extractUsername(String token) {
@@ -65,31 +63,15 @@ public class JwtService {
     }
 
     <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-        Claims claims = extractAllClaims(token);
+        final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
-
     }
 
     public Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(getKey())
+                .verifyWith(keyPair.getPublic())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-    public void exceptionResponse(HttpServletResponse response, String messageCode) throws IOException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-
-        ApiResponse<?> apiResponse = ApiResponse.builder()
-                .message(MessageUtil.getMessage(messageCode))
-                .reasonPhrase(HttpStatus.UNAUTHORIZED.getReasonPhrase())
-                .status(HttpStatus.UNAUTHORIZED.value())
-                .build();
-        ObjectMapper objectMapper = new ObjectMapper();
-        response.getOutputStream().write(objectMapper.writeValueAsBytes(apiResponse));
-        response.flushBuffer();
     }
 }

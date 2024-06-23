@@ -1,6 +1,7 @@
 package com.example.demo.configuration.filter;
 
 import com.example.demo.service.JwtService;
+import com.example.demo.service.JwtServiceRSA;
 import com.example.demo.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.micrometer.common.util.StringUtils;
@@ -23,12 +24,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class PreFilter extends OncePerRequestFilter {
+public class PreFilterRSA extends OncePerRequestFilter {
     UserService userService;
+    JwtServiceRSA jwtServiceRSA;
     JwtService jwtService;
 
     @Override
@@ -41,17 +43,18 @@ public class PreFilter extends OncePerRequestFilter {
         String token = authorization.replace("Bearer ", "");
         String username;
         try {
-            username = jwtService.extractUsername(token);
+            username = jwtServiceRSA.extractUsername(token);
         } catch (ExpiredJwtException e) {
             jwtService.exceptionResponse(response, "token.error.expired");
             return;
         } catch (Exception e) {
+            log.info("EXCEPTION TOKEN VERIFY {}", e.getMessage());
             jwtService.exceptionResponse(response, "token.error.invalid");
             return;
         }
         if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
-            if (jwtService.validateToken(token, userDetails)) {
+            if (jwtServiceRSA.validateToken(token, userDetails)) {
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
