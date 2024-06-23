@@ -27,4 +27,6 @@ public class Post extends AbstractEntity {
     int dislikes;
 
     int favorites;
+
+    boolean isBanned;
 }
