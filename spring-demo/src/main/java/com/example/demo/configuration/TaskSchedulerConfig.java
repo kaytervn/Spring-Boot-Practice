@@ -18,7 +18,6 @@ public class TaskSchedulerConfig {
         try {
             String response = restTemplate.getForObject(url, String.class);
             log.info("Request sent. Response: {}", response);
-            System.out.println();
         } catch (Exception e) {
             log.info("Error sending request: {}", e.getMessage());
         }

@@ -37,18 +37,6 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/access-rsa")
-    ApiResponse<?> loginRSA(@Valid @RequestBody SignInRequest request) {
-        var data = authenticationService.authenticateRSA(request);
-        return ApiResponse.builder()
-                .timestamp(new Date())
-                .reasonPhrase(HttpStatus.ACCEPTED.getReasonPhrase())
-                .status(HttpStatus.ACCEPTED.value())
-                .message(MessageUtil.getMessage("token.success.access"))
-                .data(data)
-                .build();
-    }
-
     @PostMapping("/logout")
     ApiResponse<?> logout() {
         return ApiResponse.builder()
