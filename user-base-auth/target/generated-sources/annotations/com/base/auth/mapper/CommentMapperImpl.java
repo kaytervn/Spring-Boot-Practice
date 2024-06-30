@@ -2,26 +2,28 @@ package com.base.auth.mapper;
 
 import com.base.auth.dto.comment.CommentDto;
 import com.base.auth.dto.news.NewsAutoCompleteDto;
-import com.base.auth.dto.user.UserAutoCompleteDto;
 import com.base.auth.form.comment.CreateCommentForm;
 import com.base.auth.form.comment.UpdateCommentForm;
 import com.base.auth.model.Comment;
 import com.base.auth.model.News;
-import com.base.auth.model.User;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-29T17:43:55+0700",
+    date = "2024-06-30T13:02:31+0700",
     comments = "version: 1.3.1.Final, compiler: javac, environment: Java 11.0.22 (Oracle Corporation)"
 )
 @Component
 public class CommentMapperImpl implements CommentMapper {
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public CommentDto fromEntityToCommentDto(Comment comment) {
@@ -40,7 +42,7 @@ public class CommentMapperImpl implements CommentMapper {
             commentDto.setCreatedDate( LocalDateTime.ofInstant( comment.getCreatedDate().toInstant(), ZoneId.of( "UTC" ) ) );
         }
         commentDto.setNews( newsToNewsAutoCompleteDto( comment.getNews() ) );
-        commentDto.setUser( userToUserAutoCompleteDto( comment.getUser() ) );
+        commentDto.setUser( userMapper.fromUserToDtoAutoComplete( comment.getUser() ) );
         commentDto.setContent( comment.getContent() );
 
         return commentDto;
@@ -106,18 +108,6 @@ public class CommentMapperImpl implements CommentMapper {
         newsAutoCompleteDto.setPinTop( news.getPinTop() );
 
         return newsAutoCompleteDto;
-    }
-
-    protected UserAutoCompleteDto userToUserAutoCompleteDto(User user) {
-        if ( user == null ) {
-            return null;
-        }
-
-        UserAutoCompleteDto userAutoCompleteDto = new UserAutoCompleteDto();
-
-        userAutoCompleteDto.setId( user.getId() );
-
-        return userAutoCompleteDto;
     }
 
     protected News createCommentFormToNews(CreateCommentForm createCommentForm) {

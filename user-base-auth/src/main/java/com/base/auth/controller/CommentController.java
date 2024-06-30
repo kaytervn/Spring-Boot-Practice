@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/comment")
@@ -115,6 +116,10 @@ public class CommentController extends ABasicController {
         User user = userRepository.findByAccountId(getCurrentUser()).orElse(null);
         if (user == null) {
             throw new BadRequestException(ErrorCode.ACCOUNT_ERROR_NOT_FOUND);
+        }
+
+        if (!Objects.equals(user.getId(), existingComment.getUser().getId())) {
+            throw new BadRequestException("Not Allowed to Update");
         }
 
         commentMapper.updateCommentFromUpdateCommentForm(updateCommentForm, existingComment);
