@@ -604,3 +604,21 @@ if (pm.response.json().data != null) {
     <version>2.5.0</version>
 </dependency>
 ```
+
+## Others
+
+**MySQL Dump:**
+
+```cmd
+cd C:\Program Files\MySQL\MySQL Server 8.0\bin
+```
+
+```cmd
+mysqldump -u root -p db_name > D:\Downloads\dump_file.sql
+```
+
+**Liquibase Changelog Export Data:**
+
+```
+mvn liquibase:generateChangeLog -Dliquibase.diffTypes=data
+```
