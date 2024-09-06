@@ -617,6 +617,16 @@ cd C:\Program Files\MySQL\MySQL Server 8.0\bin
 mysqldump -u root -p db_name > D:\Downloads\dump_file.sql
 ```
 
+**MySQL Change Root Password:**
+
+```cmd
+cd C:\Program Files\MySQL\MySQL Server 8.0\bin
+```
+
+```cmd
+mysqladmin -u root -p password new_password
+```
+
 **Liquibase Changelog Export Data:**
 
 ```
